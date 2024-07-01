@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rain: A Paradox Profound</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://img.freepik.com/free-photo/weather-effects-composition_23-2149853295.jpg?t=st=1719773736~exp=1719777336~hmac=035f15d4aced336e2ef7daad4d166dfb49cff192e1d646dcabac1cd3e6d0d415&w=1060');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 40px;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                   }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .poemSign{
+            overflow-y:auto;
+            height: 500px;
+        }
+        .poem {
+            white-space: pre-wrap;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #34495e;
+            
+            
+         }
+        .signature {
+            display: block;
+            margin: 20px auto 0;
+            max-width: 150px;
+            opacity: 0.8;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #2c3e50;
+        }
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .poem {
+                font-size: 1rem;
+            }
+        }
+        #playButton {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-3 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Rain: A Paradox Profound</h1>
+        
+        <div class="poemSign">
+        <div class="poem">
+In whispers soft, the raindrops kiss the earth,
+A melody of life, each drop a birth.
+Yet thunder growls like beasts in midnight's gloom,
+Its roar an omen, shrouded in dark doom.
+
+The rain's embrace, a lover's gentle touch,
+Dancing on leaves, they sparkle just as much.
+But flash of lightning tears the sky in two,
+A jagged scar, a flash of blinding hue.
+
+Silken curtains drape the world in gray,
+A silver veil that hides the light of day.
+Yet winds will howl and whip the storm to might,
+Turning serene to chaos in the night.
+
+Each droplet sings a song of sweet refrain,
+A lullaby that calms the restless brain.
+But rivers swell with fierce, unyielding might,
+Flooding dreams, turning day into night.
+
+Oh rain, you are a paradox profound,
+In your beauty and your terror, we are bound.
+You cleanse the earth with every pure caress,
+Yet in your fury, hearts you do distress.
+</div>
+        <img src="https://e7.pngegg.com/pngimages/923/614/png-clipart-digital-signature-signature-block-signatures-angle-material-thumbnail.png" alt="Signature" class="signature">
+        </div>
+    </div>
+    <footer>Design & Developed by ISK</footer>
+    <button id="playButton">▶️</button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var playButton = document.getElementById('playButton');
+            var audioContext;
+            var source;
+            var isPlaying = false;
+
+            function toggleAudio() {
+                if (!audioContext) {
+                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
+                        .then(response => response.arrayBuffer())
+                        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                        .then(audioBuffer => {
+                            source = audioContext.createBufferSource();
+                            source.buffer = audioBuffer;
+                            source.loop = true;
+                            source.connect(audioContext.destination);
+                            source.start();
+                            isPlaying = true;
+                            playButton.textContent = '⏸️';
+                        })
+                        .catch(error => console.error('Error loading audio:', error));
+                } else if (isPlaying) {
+                    audioContext.suspend();
+                    isPlaying = false;
+                    playButton.textContent = '▶️';
+                } else {
+                    audioContext.resume();
+                    isPlaying = true;
+                    playButton.textContent = '⏸️';
+                }
+            }
+
+            playButton.addEventListener('click', toggleAudio);
+        });
+    </script>
+</body>
+</html>
