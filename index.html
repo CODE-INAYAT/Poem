@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rain: A Paradox Profound</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+FR+Moderne&display=swap" rel="stylesheet">
     <style>
-        body {
+        /* body {
             font-family: 'Arial', sans-serif;
             background-image: url('https://img.freepik.com/free-photo/weather-effects-composition_23-2149853295.jpg?t=st=1719773736~exp=1719777336~hmac=035f15d4aced336e2ef7daad4d166dfb49cff192e1d646dcabac1cd3e6d0d415&w=1060');
             background-size: cover;
@@ -19,55 +23,107 @@
             justify-content: center;
             margin: 0;
             padding: 20px;
+        } */
+
+        body {
+            background-image: url('https://img.freepik.com/free-photo/weather-effects-composition_23-2149853295.jpg?t=st=1719773736~exp=1719777336~hmac=035f15d4aced336e2ef7daad4d166dfb49cff192e1d646dcabac1cd3e6d0d415&w=1060');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            background-repeat: no-repeat;
+            padding: 20px;
+            background-color: #f0f0f0;
+            /* Fallback color */
         }
+
         .container {
             background-color: rgba(255, 255, 255, 0.5);
             border-radius: 15px;
             padding: 40px;
             max-width: 800px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-                   }
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* From https://css.glass */
+            background: rgb(0 0 0 / 10%);
+            border-radius: 16px;
+            box-shadow: 0 4px 30px rgb(0 0 0 / 70%);
+            backdrop-filter: blur(15.9px);
+            -webkit-backdrop-filter: blur(15.9px);
+        }
+
         h1 {
-            color: #2c3e50;
+            color: #ffffff;
             font-size: 2.5rem;
             margin-bottom: 20px;
             text-align: center;
+            font-family: "Esteban", serif;
+            font-weight: 400;
+            font-style: normal;
         }
-        
-        .poemSign{
-            overflow-y:auto;
+
+        .poemSign {
+            overflow-y: auto;
             height: 500px;
+            max-width: 1000px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
+
         .poem {
             white-space: pre-wrap;
             font-size: 1.1rem;
             line-height: 1.6;
-            color: #34495e;
-            
-            
-         }
+            color: #ffffff;
+            text-align: center;
+            font-family: "Playwrite MX", cursive;
+            font-family: "Playwrite FR Moderne", cursive;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            line-height: 2.5;
+            /* Increased from 1.6 to 2 */
+            margin-bottom: 1.5em;
+            /* Adds space after each stanza */
+
+        }
+
         .signature {
             display: block;
             margin: 20px auto 0;
             max-width: 150px;
             opacity: 0.8;
         }
+
         footer {
             margin-top: 20px;
             font-size: 1rem;
             color: #2c3e50;
         }
+
         @media (max-width: 640px) {
             .container {
                 padding: 20px;
             }
+
             h1 {
                 font-size: 2rem;
             }
+
             .poem {
                 font-size: 1rem;
             }
         }
+
         #playButton {
             position: fixed;
             bottom: 20px;
@@ -83,14 +139,112 @@
             align-items: center;
             justify-content: center;
         }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .poem {
+                font-size: 0.9rem;
+                max-width: 100%;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .poem {
+            /* ... existing styles ... */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .signature {
+            display: block;
+            margin: 20px auto 0;
+            max-width: 150px;
+            opacity: 0.8;
+            align-self: flex-end;
+        }
+
+        #playButton {
+            /* ... existing styles ... */
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60
+        }
+
+        #playButton:hover {
+            transform: scale(1.1);
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .content {
+            display: none;
+        }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <h1 class="mb-3 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl">Rain: A Paradox Profound</h1>
-        
-        <div class="poemSign">
-        <div class="poem">
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+    </div>
+    <div class="content">
+        <div class="container">
+            <h1 class="mb-3 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl">Rain:
+                A Paradox Profound</h1>
+
+            <div class="poemSign poem-container">
+                <div class="poem">
 In whispers soft, the raindrops kiss the earth,
 A melody of life, each drop a birth.
 Yet thunder growls like beasts in midnight's gloom,
@@ -115,21 +269,40 @@ Oh rain, you are a paradox profound,
 In your beauty and your terror, we are bound.
 You cleanse the earth with every pure caress,
 Yet in your fury, hearts you do distress.
-</div>
-        <img src="https://e7.pngegg.com/pngimages/923/614/png-clipart-digital-signature-signature-block-signatures-angle-material-thumbnail.png" alt="Signature" class="signature">
+                </div>
+                <img src="https://e7.pngegg.com/pngimages/923/614/png-clipart-digital-signature-signature-block-signatures-angle-material-thumbnail.png"
+                    alt="Signature" class="signature">
+            </div>
         </div>
+
+
+        <!-- <button id="playButton" aria-label="Play or pause background music">▶️</button> -->
+        <button id="playButton" aria-label="Play or pause background music">
+            <svg id="playIcon" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z"
+                    clip-rule="evenodd" />
+            </svg>
+            <svg id="pauseIcon" class="w-6 h-6 text-gray-800 dark:text-white hidden" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd"
+                    d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z"
+                    clip-rule="evenodd" />
+            </svg>
+        </button>
     </div>
-    <footer>Design & Developed by ISK</footer>
-    <button id="playButton">▶️</button>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var playButton = document.getElementById('playButton');
             var audioContext;
             var source;
             var isPlaying = false;
 
             function toggleAudio() {
+                var playIcon = document.getElementById('playIcon');
+                var pauseIcon = document.getElementById('pauseIcon');
+
                 if (!audioContext) {
                     audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
@@ -142,22 +315,82 @@ Yet in your fury, hearts you do distress.
                             source.connect(audioContext.destination);
                             source.start();
                             isPlaying = true;
-                            playButton.textContent = '⏸️';
+                            playIcon.classList.add('hidden');
+                            pauseIcon.classList.remove('hidden');
                         })
                         .catch(error => console.error('Error loading audio:', error));
                 } else if (isPlaying) {
                     audioContext.suspend();
                     isPlaying = false;
-                    playButton.textContent = '▶️';
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
                 } else {
                     audioContext.resume();
                     isPlaying = true;
-                    playButton.textContent = '⏸️';
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
                 }
             }
 
             playButton.addEventListener('click', toggleAudio);
+
+            // Load background image
+            var img = new Image();
+            img.onload = function () {
+                document.body.style.backgroundImage = "url('" + img.src + "')";
+                document.getElementById('loadingOverlay').style.display = 'none';
+                document.querySelector('.content').style.display = 'block';
+            };
+            img.src = 'https://img.freepik.com/free-photo/weather-effects-composition_23-2149853295.jpg?t=st=1719773736~exp=1719777336~hmac=035f15d4aced336e2ef7daad4d166dfb49cff192e1d646dcabac1cd3e6d0d415&w=1060';
         });
+
+        //         document.addEventListener('DOMContentLoaded', function () {
+        //     var playButton = document.getElementById('playButton');
+        //     var audioContext;
+        //     var source;
+        //     var isPlaying = false;
+
+        //     function toggleAudio() {
+        //         var playIcon = document.getElementById('playIcon');
+        //         var pauseIcon = document.getElementById('pauseIcon');
+
+        //         if (!audioContext) {
+        //             audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        //             fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
+        //                 .then(response => response.arrayBuffer())
+        //                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+        //                 .then(audioBuffer => {
+        //                     source = audioContext.createBufferSource();
+        //                     source.buffer = audioBuffer;
+        //                     source.loop = true;
+        //                     source.connect(audioContext.destination);
+        //                     source.start();
+        //                     isPlaying = true;
+        //                     playIcon.classList.add('hidden');
+        //                     pauseIcon.classList.remove('hidden');
+        //                 })
+        //                 .catch(error => console.error('Error loading audio:', error));
+        //         } else if (isPlaying) {
+        //             audioContext.suspend();
+        //             isPlaying = false;
+        //             playIcon.classList.remove('hidden');
+        //             pauseIcon.classList.add('hidden');
+        //         } else {
+        //             audioContext.resume();
+        //             isPlaying = true;
+        //             playIcon.classList.add('hidden');
+        //             pauseIcon.classList.remove('hidden');
+        //         }
+        //     }
+
+        //     playButton.addEventListener('click', toggleAudio);
+        // });
+
+        // // Lazy load the background image
+        // window.addEventListener('load', function () {
+        //     document.body.style.backgroundImage = "url('https://img.freepik.com/free-photo/weather-effects-composition_23-2149853295.jpg?t=st=1719773736~exp=1719777336~hmac=035f15d4aced336e2ef7daad4d166dfb49cff192e1d646dcabac1cd3e6d0d415&w=1060')";
+        // });
     </script>
 </body>
+
 </html>
