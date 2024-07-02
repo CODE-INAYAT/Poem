@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="">
 
 <head>
     <meta charset="UTF-8">
@@ -9,22 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+FR+Moderne&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cardo:ital@0;1&display=swap" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <style>
-        /* body {
-            font-family: 'Arial', sans-serif;
-            background-image: url('https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            padding: 20px;
-        } */
-
         body {
             background-image: url('https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
             background-size: cover;
@@ -38,16 +25,13 @@
             margin: 0;
             background-repeat: no-repeat;
             padding: 20px;
+            padding-bottom: 80px;
             background-color: #f0f0f0;
-            /* Fallback color */
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
             padding: 40px;
             max-width: 800px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -57,22 +41,23 @@
             box-shadow: 0 4px 30px rgb(0 0 0 / 70%);
             backdrop-filter: blur(15.9px);
             -webkit-backdrop-filter: blur(15.9px);
+            position: relative;
         }
 
         h1 {
             color: #ffffff;
             font-size: 2.5rem;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             text-align: center;
-            font-family: "Esteban", serif;
+            font-family: "Cardo", serif;
             font-weight: 400;
-            font-style: normal;
+            font-style: italic;
         }
 
         .poemSign {
             overflow-y: auto;
-            height: 500px;
             max-width: 1000px;
+            height: 406px;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -80,34 +65,47 @@
         }
 
         .poem {
-            white-space: pre-wrap;
-            font-size: 25px;
-            line-height: 1.6;
+            font-size: 20px;
             color: #ffffff;
             text-align: center;
-            font-family: "Playwrite MX", cursive;
             font-family: "Playwrite FR Moderne", cursive;
             font-optical-sizing: auto;
             font-weight: 400;
             font-style: normal;
             line-height: 2.5;
-            /* Increased from 1.6 to 2 */
-            margin-bottom: 1.5em;
-            /* Adds space after each stanza */
-
         }
 
         .signature {
             display: block;
             margin: 20px auto 0;
-            max-width: 150px;
-            opacity: 0.8;
+            max-width: 200px;
+            align-self: flex-end;
+            filter: contrast(150%) brightness(90%);
+            transition: max-width 0.3s ease;
         }
 
-        footer {
-            margin-top: 20px;
-            font-size: 1rem;
-            color: #2c3e50;
+        /* Medium screens */
+        @media (min-width: 768px) {
+            .signature {
+                max-width: 250px;
+                /* Larger size for medium screens */
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1024px) {
+            .signature {
+                max-width: 300px;
+                /* Even larger for big screens */
+            }
+        }
+
+        /* Extra large screens */
+        @media (min-width: 1280px) {
+            .signature {
+                max-width: 350px;
+                /* Largest size for very big screens */
+            }
         }
 
         @media (max-width: 640px) {
@@ -125,7 +123,7 @@
         }
 
         #playButton {
-            position: fixed;
+            position: absolute;
             bottom: 20px;
             right: 20px;
             background-color: rgba(255, 255, 255, 0.7);
@@ -138,6 +136,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
         }
 
         @media (max-width: 640px) {
@@ -166,24 +165,21 @@
         }
 
         .poem {
-            /* ... existing styles ... */
-            animation: fadeIn 2s ease-in-out;
+            animation: fadeIn 3s ease-in-out;
         }
 
         .signature {
             display: block;
             margin: 20px auto 0;
             max-width: 150px;
-            opacity: 0.8;
             align-self: flex-end;
         }
 
         #playButton {
-            /* ... existing styles ... */
             transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
             position: fixed;
             bottom: 20px;
-            right: 20px;
+            left: 20px;
             background-color: rgba(255, 255, 255, 0.7);
             border: none;
             border-radius: 50%;
@@ -231,6 +227,12 @@
         .content {
             display: none;
         }
+
+        .footer-text {
+            display: block;
+            text-align: center;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -239,58 +241,57 @@
         <div class="loader"></div>
     </div>
     <div class="content">
-        <div class="container">
-            <h1 class="mb-3 text-4xl font-extrabold leading-none tracking-tight md:text-5xl lg:text-6xl">Rain:
+        <div class="container" style="
+    height: 520px;">
+            <h1 class="mb-4 text-4xl leading-none tracking-tight md:text-5xl lg:text-6xl">Rain:
                 A Paradox Profound</h1>
 
             <div class="poemSign poem-container">
                 <div class="poem">
-In whispers soft, the raindrops kiss the earth,
-A melody of life, each drop a birth.
-Yet thunder growls like beasts in midnight's gloom,
-Its roar an omen, shrouded in dark doom.
+                    In whispers soft, the raindrops kiss the earth,<br>
+                    A melody of life, each drop a birth.<br>
+                    Yet thunder growls like beasts in midnight's gloom,<br>
+                    Its roar an omen, shrouded in dark doom.<br><br>
 
-The rain's embrace, a lover's gentle touch,
-Dancing on leaves, they sparkle just as much.
-But flash of lightning tears the sky in two,
-A jagged scar, a flash of blinding hue.
+                    The rain's embrace, a lover's gentle touch,<br>
+                    Dancing on leaves, they sparkle just as much.<br>
+                    But flash of lightning tears the sky in two,<br>
+                    A jagged scar, a flash of blinding hue.<br><br>
 
-Silken curtains drape the world in gray,
-A silver veil that hides the light of day.
-Yet winds will howl and whip the storm to might,
-Turning serene to chaos in the night.
+                    Silken curtains drape the world in gray,<br>
+                    A silver veil that hides the light of day.<br>
+                    Yet winds will howl and whip the storm to might,<br>
+                    Turning serene to chaos in the night.<br><br>
 
-Each droplet sings a song of sweet refrain,
-A lullaby that calms the restless brain.
-But rivers swell with fierce, unyielding might,
-Flooding dreams, turning day into night.
+                    Each droplet sings a song of sweet refrain,<br>
+                    A lullaby that calms the restless brain.<br>
+                    But rivers swell with fierce, unyielding might,<br>
+                    Flooding dreams, turning day into night.<br><br>
 
-Oh rain, you are a paradox profound,
-In your beauty and your terror, we are bound.
-You cleanse the earth with every pure caress,
-Yet in your fury, hearts you do distress.
+                    Oh rain, you are a paradox profound,<br>
+                    In your beauty and your terror, we are bound.<br>
+                    You cleanse the earth with every pure caress,<br>
+                    Yet in your fury, hearts you do distress.
+
+                    <img src="Sign.png" alt="Signature" class="signature">
                 </div>
-                <img src="https://e7.pngegg.com/pngimages/923/614/png-clipart-digital-signature-signature-block-signatures-angle-material-thumbnail.png"
-                    alt="Signature" class="signature">
             </div>
+            <button id="playButton" aria-label="Play or pause background music">
+                <svg id="playIcon" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z"
+                        clip-rule="evenodd" />
+                </svg>
+                <svg id="pauseIcon" class="w-6 h-6 text-gray-800 dark:text-white hidden" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd"
+                        d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
         </div>
-
-
-        <!-- <button id="playButton" aria-label="Play or pause background music">▶️</button> -->
-        <button id="playButton" aria-label="Play or pause background music">
-            <svg id="playIcon" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd" d="M8.6 5.2A1 1 0 0 0 7 6v12a1 1 0 0 0 1.6.8l8-6a1 1 0 0 0 0-1.6l-8-6Z"
-                    clip-rule="evenodd" />
-            </svg>
-            <svg id="pauseIcon" class="w-6 h-6 text-gray-800 dark:text-white hidden" aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                <path fill-rule="evenodd"
-                    d="M8 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H8Zm7 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1Z"
-                    clip-rule="evenodd" />
-            </svg>
-        </button>
     </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -334,6 +335,7 @@ Yet in your fury, hearts you do distress.
 
             playButton.addEventListener('click', toggleAudio);
 
+
             // Load background image
             var img = new Image();
             img.onload = function () {
@@ -342,55 +344,75 @@ Yet in your fury, hearts you do distress.
                 document.querySelector('.content').style.display = 'block';
             };
             img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+
+            // Screenshot detection
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'PrintScreen') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+                if (event.ctrlKey && event.key === 'p') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+            });
+
+            document.addEventListener('keyup', function (event) {
+                if (event.key === 'PrintScreen') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+            });
+
+            document.addEventListener('keyup', function (event) {
+                if (event.key === 'PrintScreen') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'PrintScreen') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+                if (event.ctrlKey && event.key === 'p') {
+                    alert('Screenshots are not allowed on this page.');
+                    event.preventDefault();
+                }
+            });
+
+            window.addEventListener('blur', function () {
+                alert('Screen recording detected. Please do not record this page.');
+            });
         });
-
-        //         document.addEventListener('DOMContentLoaded', function () {
-        //     var playButton = document.getElementById('playButton');
-        //     var audioContext;
-        //     var source;
-        //     var isPlaying = false;
-
-        //     function toggleAudio() {
-        //         var playIcon = document.getElementById('playIcon');
-        //         var pauseIcon = document.getElementById('pauseIcon');
-
-        //         if (!audioContext) {
-        //             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        //             fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
-        //                 .then(response => response.arrayBuffer())
-        //                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-        //                 .then(audioBuffer => {
-        //                     source = audioContext.createBufferSource();
-        //                     source.buffer = audioBuffer;
-        //                     source.loop = true;
-        //                     source.connect(audioContext.destination);
-        //                     source.start();
-        //                     isPlaying = true;
-        //                     playIcon.classList.add('hidden');
-        //                     pauseIcon.classList.remove('hidden');
-        //                 })
-        //                 .catch(error => console.error('Error loading audio:', error));
-        //         } else if (isPlaying) {
-        //             audioContext.suspend();
-        //             isPlaying = false;
-        //             playIcon.classList.remove('hidden');
-        //             pauseIcon.classList.add('hidden');
-        //         } else {
-        //             audioContext.resume();
-        //             isPlaying = true;
-        //             playIcon.classList.add('hidden');
-        //             pauseIcon.classList.remove('hidden');
-        //         }
-        //     }
-
-        //     playButton.addEventListener('click', toggleAudio);
-        // });
-
-        // // Lazy load the background image
-        // window.addEventListener('load', function () {
-        //     document.body.style.backgroundImage = "url('https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')";
-        // });
     </script>
-</body>
 
+    </script>
+    <footer class="rounded-lg shadow m-4 bg-gray-800 fixed bottom-0 left-0 right-0" style="
+margin-bottom: 2px;
+margin-right: 10px;
+margin-left: 10px;
+margin-top: 5px;
+">
+        <div class="w-full mx-auto max-w-screen-xl p-1 md:flex md:items-center md:justify-center">
+            <span class="footer-text text-base text-gray-200 sm:text-center"
+                style="font-family: 'JetBrains Mono';">Develop By ISK
+                <span class="footer-text text-md text-gray-400 md:text-center">Report An Bug
+                    <a href="mailto:shaikh_inayat@outlook.com?subject=BUG%20REPORT%20%2F%20WEB PAGE SUGGESTIONS"
+                        class="hover:underline" style="color: rgb(155, 73, 255);">Click here <svg
+                            class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
+                                clip-rule="evenodd" />
+                        </svg> </a>
+                </span>
+            </span>
+
+        </div>
+    </footer>
+    </footer>
+</body>
 </html>
