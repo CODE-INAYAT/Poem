@@ -1,55 +1,3 @@
-// document.addEventListener('DOMContentLoaded', function () {
-//     var playButton = document.getElementById('playButton');
-//     var audioContext;
-//     var source;
-//     var isPlaying = false;
-
-//     function toggleAudio() {
-//         var playIcon = document.getElementById('playIcon');
-//         var pauseIcon = document.getElementById('pauseIcon');
-
-//         if (!audioContext) {
-//             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-//             fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
-//                 .then(response => response.arrayBuffer())
-//                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-//                 .then(audioBuffer => {
-//                     source = audioContext.createBufferSource();
-//                     source.buffer = audioBuffer;
-//                     source.loop = true;
-//                     source.connect(audioContext.destination);
-//                     source.start();
-//                     isPlaying = true;
-//                     playIcon.classList.add('hidden');
-//                     pauseIcon.classList.remove('hidden');
-//                 })
-//                 .catch(error => console.error('Error loading audio:', error));
-//         } else if (isPlaying) {
-//             audioContext.suspend();
-//             isPlaying = false;
-//             playIcon.classList.remove('hidden');
-//             pauseIcon.classList.add('hidden');
-//         } else {
-//             audioContext.resume();
-//             isPlaying = true;
-//             playIcon.classList.add('hidden');
-//             pauseIcon.classList.remove('hidden');
-//         }
-//     }
-
-//     playButton.addEventListener('click', toggleAudio);
-
-
-//     // Load background image
-//     var img = new Image();
-//     img.onload = function () {
-//         document.body.style.backgroundImage = "url('" + img.src + "')";
-//         document.getElementById('loadingOverlay').style.display = 'none';
-//         document.querySelector('.content').style.display = 'block';
-//     };
-//     img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-// });
-
 document.addEventListener('DOMContentLoaded', function () {
     var playButton = document.getElementById('playButton');
     var audioContext;
@@ -130,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
     img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
     // Contact modal functionality
-
     // const contactModal = document.getElementById('contactModal');
     // const contactLink = document.getElementById('contactLink');
     // const closeModal = document.getElementById('closeModal');
@@ -207,16 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-
-
-
-
-
-
-
-
-
 
 
 // //Copy restruction
