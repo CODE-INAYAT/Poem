@@ -249,3 +249,12 @@ img {
     -o-user-drag: none;
     user-drag: none;
 }
+
+#popover {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#popover.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
