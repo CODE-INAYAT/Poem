@@ -74,36 +74,38 @@
         <div class="w-full mx-auto max-w-screen-xl p-1 md:flex md:items-center md:justify-center">
             <span class="footer-text text-xs text-gray-200 sm:text-center"
                 style="font-family: 'JetBrains Mono';">Develop By ISK
-                <span class="footer-text text-md text-gray-400 md:text-center">Report An Bug
-                    <a href="#" id="contactLink" class="hover:underline" style="color: rgb(155, 73, 255);">Click here
-                        <svg class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                            viewBox="0 0 24 24">
-                            <path fill-rule="evenodd"
-                                d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
-                                clip-rule="evenodd" />
-                        </svg>
+                <span class="footer-text text-md text-gray-400 md:text-center">Reported An Issue On WebPage?
+                    <a href="#" id="contactLink" class="hover:underline" style="color: rgb(155, 73, 255);">Click
+                        here</a> <a href="#" id="contactLink"><svg id="contactSvg" class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                        viewBox="0 0 24 24">
+                        <path fill-rule="evenodd"
+                            d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
+                            clip-rule="evenodd" />
+                    </svg></a> | <a href="#" id="creditsLink" class="hover:underline"
+                        style="color: rgb(155, 73, 255);">Credits
                     </a>
                 </span>
             </span>
         </div>
     </footer>
 
+    <!-------Contact Modal-------->
     <div id="contactModal" style="font-family: 'Plus Jakarta Sans', sans-serif;"
-        class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 transition-opacity" style="background: rgba(0, 0, 0, 0); backdrop-filter: blur(15.9px);
-    -webkit-backdrop-filter: blur(15.9px);" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+        class="fixed z-10 inset-0 overflow-y-auto hidden flex items-center justify-center p-4"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="w-full max-w-sm sm:max-w-md mx-2 sm:mx-0">
+            <div style="background: rgba(0, 0, 0, 0.441); backdrop-filter: blur(15.9px);
+-webkit-backdrop-filter: blur(15.9px);" class="fixed inset-0 transition-opacity" aria-hidden="true"></div>
             <div style="border-radius: 16px;"
-                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all w-full">
                 <!-- Modal header with close button -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
-                    <h3 class="text-xl font-semibold text-gray-900">
+                    <h3 class="text-xl font-semibold text-gray-900 w-full text-center">
                         Contact Options
                     </h3>
                     <button type="button" id="closeModal"
-                        class="text-gray-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        class="absolute right-2 top-2 text-gray-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
                         data-modal-hide="default-modal">
                         <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 14 14">
@@ -114,13 +116,14 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <div class="p-4 md:p-5 space-y-4">
+                <div class="p-4 md:p-5 space-y-4 text-center">
                     <p class="text-base leading-relaxed text-gray-700">
                         Choose your preferred contact method:
                     </p>
-                    <div class="flex justify-center space-x-4">
+                    <div
+                        class="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-y-0 sm:space-x-4">
                         <a href="mailto:shaikh_inayat@outlook.com?subject=BUG%20REPORT%20%2F%20WEB PAGE SUGGESTIONS"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -129,8 +132,8 @@
                             </svg>
                             <span class="plus-jakarta-sans">Email</span>
                         </a>
-                        <a href="https://wa.me/919112637018?text=Hii%2C%20I%20am%20contacting%20you%20from%20the%20webpage%20of%20phrases%20of%20poem.%20Here%20are%20some%20of%20my%20suggestions%2FBug%20reported%3A%20%3Cwrite%20your%20message%3E"
-                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
+                        <a href="https://wa.me/919234567890"
+                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -139,6 +142,54 @@
                             <span class="plus-jakarta-sans">WhatsApp</span>
                         </a>
                     </div>
+                    <div class="flex justify-center">
+                        <span
+                            class="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-gray-200">
+                            Your Issue Will Be Reported To INAYAT SHAIKH
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-------Credits Modal-------->
+    <div id="creditsModal" style="font-family: 'Plus Jakarta Sans', sans-serif;"
+        class="fixed z-10 inset-0 overflow-y-auto hidden flex items-center justify-center p-4"
+        aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="w-full max-w-sm sm:max-w-md mx-2 sm:mx-0">
+            <div style="background: rgba(0, 0, 0, 0.441); backdrop-filter: blur(15.9px);
+-webkit-backdrop-filter: blur(15.9px);" class="fixed inset-0 transition-opacity" aria-hidden="true"></div>
+            <div style="border-radius: 16px;"
+                class="bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-full">
+                <!-- Modal header with close button -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Credits
+                    </h3>
+                    <button type="button" id="closeCreditsModal"
+                        class="text-gray-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="credits-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <ul class="space-y-2 text-gray-700">
+                        <li><strong>Poet:</strong> Inayat Shaikh</li>
+                        <li><strong>Guitar Musician:</strong> Aryan Agarwal</li>
+                        <li><strong>Piano Musician:</strong> Yashasvi Shah</li>
+                        <li><strong>Web Development:</strong> Inayat Shaikh</li>
+                        <li><strong>Music Editing:</strong> Inayat Shaikh & Safiyah Khan</li>
+                        <li><strong>UI/UX Designer:</strong> Inayat Shaikh</li>
+                        <li><strong>Sound Designing:</strong> Inayat Shaikh,Safiyah Khan & Aryan Agarwal</li>
+                    </ul>
                 </div>
             </div>
         </div>
