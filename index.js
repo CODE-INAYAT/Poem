@@ -130,30 +130,85 @@ document.addEventListener('DOMContentLoaded', function () {
     img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
     // Contact modal functionality
-    var contactLink = document.getElementById('contactLink');
-    var contactModal = document.getElementById('contactModal');
-    var closeModal = document.getElementById('closeModal');
 
-    contactLink.addEventListener('click', function(e) {
+    // const contactModal = document.getElementById('contactModal');
+    // const contactLink = document.getElementById('contactLink');
+    // const closeModal = document.getElementById('closeModal');
+
+    // const creditsModal = document.getElementById('creditsModal');
+    // const creditsLink = document.getElementById('creditsLink');
+    // const closeCreditsModal = document.getElementById('closeCreditsModal');
+
+    // contactLink.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     contactModal.classList.remove('hidden');
+    // });
+
+    // closeModal.addEventListener('click', () => {
+    //     contactModal.classList.add('hidden');
+    // });
+
+    // creditsLink.addEventListener('click', (e) => {
+    //     e.preventDefault();
+    //     creditsModal.classList.remove('hidden');
+    // });
+
+    // closeCreditsModal.addEventListener('click', () => {
+    //     creditsModal.classList.add('hidden');
+    // });
+
+    // window.addEventListener('click', (e) => {
+    //     if (e.target === contactModal) {
+    //         contactModal.classList.add('hidden');
+    //     }
+    //     if (e.target === creditsModal) {
+    //         creditsModal.classList.add('hidden');
+    //     }
+    // });
+
+    const contactModal = document.getElementById('contactModal');
+    const contactLink = document.getElementById('contactLink');
+    const closeModal = document.getElementById('closeModal');
+    const contactSvg = document.getElementById('contactSvg'); // Add this line
+
+    const creditsModal = document.getElementById('creditsModal');
+    const creditsLink = document.getElementById('creditsLink');
+    const closeCreditsModal = document.getElementById('closeCreditsModal');
+
+    contactLink.addEventListener('click', (e) => {
         e.preventDefault();
         contactModal.classList.remove('hidden');
     });
 
-    closeModal.addEventListener('click', function() {
+    contactSvg.addEventListener('click', (e) => { // Add this event listener
+        e.preventDefault();
+        contactModal.classList.remove('hidden');
+    });
+
+    closeModal.addEventListener('click', () => {
         contactModal.classList.add('hidden');
     });
 
-    // Close modal when clicking outside
-    window.addEventListener('click', function(e) {
+    creditsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        creditsModal.classList.remove('hidden');
+    });
+
+    closeCreditsModal.addEventListener('click', () => {
+        creditsModal.classList.add('hidden');
+    });
+
+    window.addEventListener('click', (e) => {
         if (e.target === contactModal) {
             contactModal.classList.add('hidden');
+        }
+        if (e.target === creditsModal) {
+            creditsModal.classList.add('hidden');
         }
     });
 });
 
-document.getElementById('closeModal').addEventListener('click', function() {
-    document.getElementById('contactModal').classList.add('hidden');
-});
+
 
 
 
