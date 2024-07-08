@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function () {
     var playButton = document.getElementById('playButton');
+    var popover = document.getElementById('popover-default');
     var audioContext;
     var source;
     var isPlaying = false;
+    var popoverTimeout;
 
     function toggleAudio() {
         var playIcon = document.getElementById('playIcon');
@@ -44,6 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     isPlaying = true;
                     hideLoading();
                     pauseIcon.classList.remove('hidden');
+                    showPopover(); // Show popover when starting to play
                 })
                 .catch(error => {
                     console.error('Error loading audio:', error);
@@ -62,13 +65,27 @@ document.addEventListener('DOMContentLoaded', function () {
                 isPlaying = true;
                 hideLoading();
                 pauseIcon.classList.remove('hidden');
+                showPopover(); // Show popover when resuming play
             });
         }
     }
 
+    function showPopover() {
+        // Show popover
+        popover.classList.remove('invisible', 'opacity-0');
+        popover.classList.add('visible', 'opacity-100');
+
+        // Hide popover after 3 seconds
+        clearTimeout(popoverTimeout);
+        popoverTimeout = setTimeout(() => {
+            popover.classList.remove('visible', 'opacity-100');
+            popover.classList.add('invisible', 'opacity-0');
+        }, 4000);
+    }
+
     playButton.addEventListener('click', toggleAudio);
 
-    // Load background image
+    //Load background image
     var img = new Image();
     img.onload = function () {
         document.body.style.backgroundImage = "url('" + img.src + "')";
@@ -77,46 +94,11 @@ document.addEventListener('DOMContentLoaded', function () {
     };
     img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
-    // Contact modal functionality
-    // const contactModal = document.getElementById('contactModal');
-    // const contactLink = document.getElementById('contactLink');
-    // const closeModal = document.getElementById('closeModal');
-
-    // const creditsModal = document.getElementById('creditsModal');
-    // const creditsLink = document.getElementById('creditsLink');
-    // const closeCreditsModal = document.getElementById('closeCreditsModal');
-
-    // contactLink.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     contactModal.classList.remove('hidden');
-    // });
-
-    // closeModal.addEventListener('click', () => {
-    //     contactModal.classList.add('hidden');
-    // });
-
-    // creditsLink.addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     creditsModal.classList.remove('hidden');
-    // });
-
-    // closeCreditsModal.addEventListener('click', () => {
-    //     creditsModal.classList.add('hidden');
-    // });
-
-    // window.addEventListener('click', (e) => {
-    //     if (e.target === contactModal) {
-    //         contactModal.classList.add('hidden');
-    //     }
-    //     if (e.target === creditsModal) {
-    //         creditsModal.classList.add('hidden');
-    //     }
-    // });
-
+    // Contact and Credits modal functionality
     const contactModal = document.getElementById('contactModal');
     const contactLink = document.getElementById('contactLink');
     const closeModal = document.getElementById('closeModal');
-    const contactSvg = document.getElementById('contactSvg'); // Add this line
+    const contactSvg = document.getElementById('contactSvg');
 
     const creditsModal = document.getElementById('creditsModal');
     const creditsLink = document.getElementById('creditsLink');
@@ -127,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function () {
         contactModal.classList.remove('hidden');
     });
 
-    contactSvg.addEventListener('click', (e) => { // Add this event listener
+    contactSvg.addEventListener('click', (e) => {
         e.preventDefault();
         contactModal.classList.remove('hidden');
     });
