@@ -10,230 +10,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playwrite+FR+Moderne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cardo:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+        rel="stylesheet">
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
-    <style>
-        body {
-            background-image: url('https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            margin: 0;
-            background-repeat: no-repeat;
-            padding: 20px;
-            padding-bottom: 80px;
-            background-color: #f0f0f0;
-        }
 
-        .container {
-            padding: 40px;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            /* From https://css.glass */
-            background: rgb(0 0 0 / 10%);
-            border-radius: 16px;
-            box-shadow: 0 4px 30px rgb(0 0 0 / 70%);
-            backdrop-filter: blur(15.9px);
-            -webkit-backdrop-filter: blur(15.9px);
-            position: relative;
-        }
-
-        h1 {
-            color: #ffffff;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            text-align: center;
-            font-family: "Cardo", serif;
-            font-weight: 400;
-            font-style: italic;
-        }
-
-        .poemSign {
-            overflow-y: auto;
-            max-width: 1000px;
-            height: 406px;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .poem {
-            font-size: 20px;
-            color: #ffffff;
-            text-align: center;
-            font-family: "Playwrite FR Moderne", cursive;
-            font-optical-sizing: auto;
-            font-weight: 400;
-            font-style: normal;
-            line-height: 2.5;
-        }
-
-        .signature {
-            display: block;
-            margin: 20px auto 0;
-            max-width: 200px;
-            align-self: flex-end;
-            filter: contrast(150%) brightness(90%);
-            transition: max-width 0.3s ease;
-        }
-
-        /* Medium screens */
-        @media (min-width: 768px) {
-            .signature {
-                max-width: 250px;
-                /* Larger size for medium screens */
-            }
-        }
-
-        /* Large screens */
-        @media (min-width: 1024px) {
-            .signature {
-                max-width: 300px;
-                /* Even larger for big screens */
-            }
-        }
-
-        /* Extra large screens */
-        @media (min-width: 1280px) {
-            .signature {
-                max-width: 350px;
-                /* Largest size for very big screens */
-            }
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .poem {
-                font-size: 1rem;
-            }
-        }
-
-        #playButton {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            font-size: 24px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-        }
-
-        @media (max-width: 640px) {
-            .container {
-                padding: 20px;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .poem {
-                font-size: 0.9rem;
-                max-width: 100%;
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        .poem {
-            animation: fadeIn 3s ease-in-out;
-        }
-
-        .signature {
-            display: block;
-            margin: 20px auto 0;
-            max-width: 150px;
-            align-self: flex-end;
-        }
-
-        #playButton {
-            transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background-color: rgba(255, 255, 255, 0.7);
-            border: none;
-            border-radius: 50%;
-            width: 60px;
-            height: 60
-        }
-
-        #playButton:hover {
-            transform: scale(1.1);
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-        }
-
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .content {
-            display: none;
-        }
-
-        .footer-text {
-            display: block;
-            text-align: center;
-            width: 100%;
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
+    <script src="./index.js"></script>
 </head>
 
 <body>
@@ -243,36 +25,30 @@
     <div class="content">
         <div class="container" style="
     height: 520px;">
-            <h1 class="mb-4 text-4xl leading-none tracking-tight md:text-5xl lg:text-6xl">Rain:
-                A Paradox Profound</h1>
+            <h1 class="mb-4 text-4xl leading-none tracking-tight md:text-5xl lg:text-6xl">Rain's Paradox</h1>
 
             <div class="poemSign poem-container">
                 <div class="poem">
-                    In whispers soft, the raindrops kiss the earth,<br>
-                    A melody of life, each drop a birth.<br>
-                    Yet thunder growls like beasts in midnight's gloom,<br>
-                    Its roar an omen, shrouded in dark doom.<br><br>
+                    The rain falls soft,a whispers on my skin,<br>
+                    Each droplet like a story to begin.<br>
+                    Thunder rumbles, distant but so near,<br>
+                    A monster's growl that fills my heart with fear.<br>
+                    The shower kisses flowers, grass and trees,<br>
+                    While lightning cracks the sky with electric ease.<br><br>
 
-                    The rain's embrace, a lover's gentle touch,<br>
-                    Dancing on leaves, they sparkle just as much.<br>
-                    But flash of lightning tears the sky in two,<br>
-                    A jagged scar, a flash of blinding hue.<br><br>
+                    Clouds hang low, a blanket dull and gray,<br>
+                    Hiding blue skies and sunshine far away.<br>
+                    The wind picks up, it whips around my face,<br>
+                    Turning gentle rain to wild disgrace.<br>
+                    But droplets sings a song of sweet refrain,<br>
+                    A lullaby that calms the restless brain.<br><br>
 
-                    Silken curtains drape the world in gray,<br>
-                    A silver veil that hides the light of day.<br>
-                    Yet winds will howl and whip the storm to might,<br>
-                    Turning serene to chaos in the night.<br><br>
-
-                    Each droplet sings a song of sweet refrain,<br>
-                    A lullaby that calms the restless brain.<br>
-                    But rivers swell with fierce, unyielding might,<br>
-                    Flooding dreams, turning day into night.<br><br>
-
+                    Oh rain, you puzzle me time and again,<br>
+                    Your beauty and your anger cause such pain.<br>
+                    You wash the world so clean with every fall,<br>
+                    Yet your storms can make the bravest feel small.<br>
                     Oh rain, you are a paradox profound,<br>
-                    In your beauty and your terror, we are bound.<br>
-                    You cleanse the earth with every pure caress,<br>
-                    Yet in your fury, hearts you do distress.
-
+                    In your beauty and your terror, we are bound.
                     <img src="img.png" alt="Signature" class="signature">
                 </div>
             </div>
@@ -293,126 +69,80 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var playButton = document.getElementById('playButton');
-            var audioContext;
-            var source;
-            var isPlaying = false;
-
-            function toggleAudio() {
-                var playIcon = document.getElementById('playIcon');
-                var pauseIcon = document.getElementById('pauseIcon');
-
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
-                        .then(response => response.arrayBuffer())
-                        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                        .then(audioBuffer => {
-                            source = audioContext.createBufferSource();
-                            source.buffer = audioBuffer;
-                            source.loop = true;
-                            source.connect(audioContext.destination);
-                            source.start();
-                            isPlaying = true;
-                            playIcon.classList.add('hidden');
-                            pauseIcon.classList.remove('hidden');
-                        })
-                        .catch(error => console.error('Error loading audio:', error));
-                } else if (isPlaying) {
-                    audioContext.suspend();
-                    isPlaying = false;
-                    playIcon.classList.remove('hidden');
-                    pauseIcon.classList.add('hidden');
-                } else {
-                    audioContext.resume();
-                    isPlaying = true;
-                    playIcon.classList.add('hidden');
-                    pauseIcon.classList.remove('hidden');
-                }
-            }
-
-            playButton.addEventListener('click', toggleAudio);
-
-
-            // Load background image
-            var img = new Image();
-            img.onload = function () {
-                document.body.style.backgroundImage = "url('" + img.src + "')";
-                document.getElementById('loadingOverlay').style.display = 'none';
-                document.querySelector('.content').style.display = 'block';
-            };
-            img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
-
-            // Screenshot detection
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'PrintScreen') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-                if (event.ctrlKey && event.key === 'p') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-            });
-
-            document.addEventListener('keyup', function (event) {
-                if (event.key === 'PrintScreen') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-            });
-
-            document.addEventListener('keyup', function (event) {
-                if (event.key === 'PrintScreen') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-            });
-
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'PrintScreen') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-                if (event.ctrlKey && event.key === 'p') {
-                    alert('Screenshots are not allowed on this page.');
-                    event.preventDefault();
-                }
-            });
-
-            window.addEventListener('blur', function () {
-                alert('Screen recording detected. Please do not record this page.');
-            });
-        });
-    </script>
-
-    </script>
-    <footer class="rounded-lg shadow m-4 bg-gray-800 fixed bottom-0 left-0 right-0" style="
-margin-bottom: 2px;
-margin-right: 2px;
-margin-left: 2px;
-margin-top: 5px;
-">
+    <footer class="rounded-lg shadow m-4 bg-gray-800 fixed bottom-0 left-0 right-0"
+        style="margin-bottom: 2px; margin-right: 5px; margin-left: 5px; margin-top: 5px;">
         <div class="w-full mx-auto max-w-screen-xl p-1 md:flex md:items-center md:justify-center">
             <span class="footer-text text-xs text-gray-200 sm:text-center"
                 style="font-family: 'JetBrains Mono';">Develop By ISK
                 <span class="footer-text text-md text-gray-400 md:text-center">Report An Bug
-                    <a href="mailto:shaikh_inayat@outlook.com?subject=BUG%20REPORT%20%2F%20WEB PAGE SUGGESTIONS"
-                        class="hover:underline" style="color: rgb(155, 73, 255);">Click here <svg
-                            class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
+                    <a href="#" id="contactLink" class="hover:underline" style="color: rgb(155, 73, 255);">Click here
+                        <svg class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                             viewBox="0 0 24 24">
                             <path fill-rule="evenodd"
                                 d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
                                 clip-rule="evenodd" />
-                        </svg> </a>
+                        </svg>
+                    </a>
                 </span>
             </span>
-
         </div>
     </footer>
-    </footer>
+
+    <div id="contactModal" style="font-family: 'Plus Jakarta Sans', sans-serif;"
+        class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 transition-opacity" style="background: rgba(0, 0, 0, 0); backdrop-filter: blur(15.9px);
+    -webkit-backdrop-filter: blur(15.9px);" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div style="border-radius: 16px;"
+                class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <!-- Modal header with close button -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Contact Options
+                    </h3>
+                    <button type="button" id="closeModal"
+                        class="text-gray-600 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        data-modal-hide="default-modal">
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        </svg>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <p class="text-base leading-relaxed text-gray-700">
+                        Choose your preferred contact method:
+                    </p>
+                    <div class="flex justify-center space-x-4">
+                        <a href="mailto:shaikh_inayat@outlook.com?subject=BUG%20REPORT%20%2F%20WEB PAGE SUGGESTIONS"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                                </path>
+                            </svg>
+                            <span class="plus-jakarta-sans">Email</span>
+                        </a>
+                        <a href="https://wa.me/919234567890"
+                            class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
+                            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+                            </svg>
+                            <span class="plus-jakarta-sans">WhatsApp</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
