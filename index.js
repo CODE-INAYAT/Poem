@@ -6,6 +6,11 @@ document.addEventListener('DOMContentLoaded', function () {
     var isPlaying = false;
     var popoverTimeout;
 
+    let audioBuffer;
+    let audioData = [];
+    let totalLength = 0;
+    let isAudioReady = false;
+
     function toggleAudio() {
         var playIcon = document.getElementById('playIcon');
         var pauseIcon = document.getElementById('pauseIcon');
@@ -34,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             showLoading();
 
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('FinalMusic.m4a')
+            fetch('./FinalMusic.m4a')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(audioBuffer => {
@@ -85,12 +90,54 @@ document.addEventListener('DOMContentLoaded', function () {
 
     playButton.addEventListener('click', toggleAudio);
 
+
+    // Start loading audio file
+    fetch('./FinalMusic.m4a')
+        .then(response => {
+            const reader = response.body.getReader();
+            const contentLength = response.headers.get('Content-Length');
+
+            return new ReadableStream({
+                start(controller) {
+                    function push() {
+                        reader.read().then(({ done, value }) => {
+                            if (done) {
+                                controller.close();
+                                return;
+                            }
+                            controller.enqueue(value);
+                            totalLength += value.length;
+                            audioData.push(value);
+
+                            if (totalLength >= contentLength / 2) {
+                                isAudioReady = true;
+                            }
+
+                            push();
+                        });
+                    }
+                    push();
+                }
+            });
+        })
+        .then(stream => new Response(stream))
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => {
+            audioBuffer = arrayBuffer;
+        });
+
+
     //Load background image
     var img = new Image();
     img.onload = function () {
         document.body.style.backgroundImage = "url('" + img.src + "')";
         document.getElementById('loadingOverlay').style.display = 'none';
         document.querySelector('.content').style.display = 'block';
+
+        // Check if audio is ready
+        if (isAudioReady) {
+            console.log("50% of audio is loaded and ready for playback");
+        }
     };
     img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
 
@@ -136,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 
 
 // //Copy restruction
