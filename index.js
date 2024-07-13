@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function loadAudio() {
         return new Promise((resolve, reject) => {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('./music/FinalMusic.mp3')
+            fetch('FinalMusic.m4a')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var img = new Image();
             img.onload = resolve;
             img.onerror = reject;
-            img.src = 'img.png';
+            img.src = 'img/img.png';
         });
     }
 
