@@ -19,20 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateLoadingMessage(message) {
-        loadingMessage.innerHTML = ''; // Use innerHTML instead of textContent
-        const lines = message.split('<br>');
-        lines.forEach((line, index) => {
-            if (index > 0) {
-                loadingMessage.appendChild(document.createElement('br'));
-            }
-            if (line.includes('<img')) {
-                const tempDiv = document.createElement('div');
-                tempDiv.innerHTML = line;
-                loadingMessage.appendChild(tempDiv.firstChild);
-            } else {
-                loadingMessage.appendChild(document.createTextNode(line));
-            }
-        });
+        loadingMessage.innerHTML = message;
     }
 
     function startDotAnimation() {
@@ -167,37 +154,25 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load all assets with status updates
     showLoadingOverlay("This will take a moment<br>Loading images");
 
-    // Promise.all([
-    //     loadBackgroundImage().then(() => {
-    //         updateLoadingMessage("Images are loaded ✅<br>Loading other assets");
-    //         return loadSignature();
-    //     }).then(() => {
-    //         updateLoadingMessage("Assets are loaded ✅<br>Loading audio");
-    //         return loadAudio();
-    //     }).then(() => {
-    //         updateLoadingMessage("Audio is loaded ✅<br>Finalizing");
-    //     })
-    // ])
-
-        Promise.all([
+    Promise.all([
         loadBackgroundImage().then(() => {
-            updateLoadingMessage("Images are loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Loading other assets");
+            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading other assets`);
             return loadSignature();
         }).then(() => {
-            updateLoadingMessage("Assets are loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Loading audio");
+            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading audio`);
             return loadAudio();
         }).then(() => {
-            updateLoadingMessage("Audio is loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Finalizing");
+            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Audio is loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
         })
-    ])
-    
-        .then(() => {
+    ]).then(() => {
+        // All assets loaded successfully
+        setTimeout(() => {
             hideLoadingOverlay();
-        })
-        .catch(error => {
-            console.error('Error loading assets:', error);
-            showErrorOverlay();
-        });
+        }, 1000); // Delay for 1 second to show the final message
+    }).catch(error => {
+        console.error('Error loading assets:', error);
+        showErrorOverlay();
+    });
 
     playButton.addEventListener('click', toggleAudio);
 
