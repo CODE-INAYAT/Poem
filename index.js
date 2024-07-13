@@ -5,11 +5,55 @@ document.addEventListener('DOMContentLoaded', function () {
     var source;
     var isPlaying = false;
     var popoverTimeout;
+    var audioBuffer;
 
-    let audioBuffer;
-    let audioData = [];
-    let totalLength = 0;
-    let isAudioReady = false;
+    function showLoadingOverlay() {
+        document.getElementById('loadingOverlay').style.display = 'flex';
+        document.querySelector('.content').style.display = 'none';
+    }
+
+    function hideLoadingOverlay() {
+        document.getElementById('loadingOverlay').style.display = 'none';
+        document.querySelector('.content').style.display = 'block';
+    }
+
+    function loadAudio() {
+        return new Promise((resolve, reject) => {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            fetch('FinalMusic.m4a')
+                .then(response => response.arrayBuffer())
+                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+                .then(buffer => {
+                    audioBuffer = buffer;
+                    resolve();
+                })
+                .catch(error => {
+                    console.error('Error loading audio:', error);
+                    reject(error);
+                });
+        });
+    }
+
+    function loadBackgroundImage() {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.onload = function () {
+                document.body.style.backgroundImage = "url('" + img.src + "')";
+                resolve();
+            };
+            img.onerror = reject;
+            img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+        });
+    }
+
+    function loadSignature() {
+        return new Promise((resolve, reject) => {
+            var img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = 'img.png'; // Adjust this to the correct path of your signature image
+        });
+    }
 
     function toggleAudio() {
         var playIcon = document.getElementById('playIcon');
@@ -35,29 +79,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
 
-        if (!audioContext) {
+        if (!source) {
             showLoading();
-
-            audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('./FinalMusic.m4a')
-                .then(response => response.arrayBuffer())
-                .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
-                .then(audioBuffer => {
-                    source = audioContext.createBufferSource();
-                    source.buffer = audioBuffer;
-                    source.loop = true;
-                    source.connect(audioContext.destination);
-                    source.start();
-                    isPlaying = true;
-                    hideLoading();
-                    pauseIcon.classList.remove('hidden');
-                    showPopover(); // Show popover when starting to play
-                })
-                .catch(error => {
-                    console.error('Error loading audio:', error);
-                    hideLoading();
-                    playIcon.classList.remove('hidden');
-                });
+            source = audioContext.createBufferSource();
+            source.buffer = audioBuffer;
+            source.loop = true;
+            source.connect(audioContext.destination);
+            source.start();
+            isPlaying = true;
+            hideLoading();
+            pauseIcon.classList.remove('hidden');
+            showPopover();
         } else if (isPlaying) {
             audioContext.suspend();
             isPlaying = false;
@@ -65,22 +97,19 @@ document.addEventListener('DOMContentLoaded', function () {
             playIcon.classList.remove('hidden');
         } else {
             showLoading();
-
             audioContext.resume().then(() => {
                 isPlaying = true;
                 hideLoading();
                 pauseIcon.classList.remove('hidden');
-                showPopover(); // Show popover when resuming play
+                showPopover();
             });
         }
     }
 
     function showPopover() {
-        // Show popover
         popover.classList.remove('invisible', 'opacity-0');
         popover.classList.add('visible', 'opacity-100');
 
-        // Hide popover after 3 seconds
         clearTimeout(popoverTimeout);
         popoverTimeout = setTimeout(() => {
             popover.classList.remove('visible', 'opacity-100');
@@ -88,58 +117,18 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000);
     }
 
-    playButton.addEventListener('click', toggleAudio);
-
-
-    // Start loading audio file
-    fetch('./FinalMusic.m4a')
-        .then(response => {
-            const reader = response.body.getReader();
-            const contentLength = response.headers.get('Content-Length');
-
-            return new ReadableStream({
-                start(controller) {
-                    function push() {
-                        reader.read().then(({ done, value }) => {
-                            if (done) {
-                                controller.close();
-                                return;
-                            }
-                            controller.enqueue(value);
-                            totalLength += value.length;
-                            audioData.push(value);
-
-                            if (totalLength >= contentLength / 2) {
-                                isAudioReady = true;
-                            }
-
-                            push();
-                        });
-                    }
-                    push();
-                }
-            });
+    // Load all assets
+    showLoadingOverlay();
+    Promise.all([loadAudio(), loadBackgroundImage(), loadSignature()])
+        .then(() => {
+            hideLoadingOverlay();
         })
-        .then(stream => new Response(stream))
-        .then(response => response.arrayBuffer())
-        .then(arrayBuffer => {
-            audioBuffer = arrayBuffer;
+        .catch(error => {
+            console.error('Error loading assets:', error);
+            hideLoadingOverlay(); // Hide loading overlay even if there's an error
         });
 
-
-    //Load background image
-    var img = new Image();
-    img.onload = function () {
-        document.body.style.backgroundImage = "url('" + img.src + "')";
-        document.getElementById('loadingOverlay').style.display = 'none';
-        document.querySelector('.content').style.display = 'block';
-
-        // Check if audio is ready
-        if (isAudioReady) {
-            console.log("50% of audio is loaded and ready for playback");
-        }
-    };
-    img.src = 'https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2';
+    playButton.addEventListener('click', toggleAudio);
 
     // Contact and Credits modal functionality
     const contactModal = document.getElementById('contactModal');
