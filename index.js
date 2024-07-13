@@ -25,7 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
             if (index > 0) {
                 loadingMessage.appendChild(document.createElement('br'));
             }
-            loadingMessage.appendChild(document.createTextNode(line));
+            if (line.includes('<img')) {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = line;
+                loadingMessage.appendChild(tempDiv.firstChild);
+            } else {
+                loadingMessage.appendChild(document.createTextNode(line));
+            }
         });
     }
 
@@ -161,17 +167,30 @@ document.addEventListener('DOMContentLoaded', function () {
     // Load all assets with status updates
     showLoadingOverlay("This will take a moment<br>Loading images");
 
-    Promise.all([
+    // Promise.all([
+    //     loadBackgroundImage().then(() => {
+    //         updateLoadingMessage("Images are loaded ✅<br>Loading other assets");
+    //         return loadSignature();
+    //     }).then(() => {
+    //         updateLoadingMessage("Assets are loaded ✅<br>Loading audio");
+    //         return loadAudio();
+    //     }).then(() => {
+    //         updateLoadingMessage("Audio is loaded ✅<br>Finalizing");
+    //     })
+    // ])
+
+        Promise.all([
         loadBackgroundImage().then(() => {
-            updateLoadingMessage("Images are loaded ✅<br>Loading other assets");
+            updateLoadingMessage("Images are loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Loading other assets");
             return loadSignature();
         }).then(() => {
-            updateLoadingMessage("Assets are loaded ✅<br>Loading audio");
+            updateLoadingMessage("Assets are loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Loading audio");
             return loadAudio();
         }).then(() => {
-            updateLoadingMessage("Audio is loaded ✅<br>Finalizing");
+            updateLoadingMessage("Audio is loaded<img src=\"img/check.svg\" style=\"height: 26px; width: 26px;\" alt=\"\"><br>Finalizing");
         })
     ])
+    
         .then(() => {
             hideLoadingOverlay();
         })
