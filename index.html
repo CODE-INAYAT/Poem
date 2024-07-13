@@ -19,10 +19,54 @@
 </head>
 
 <body>
-<div id="loadingOverlay" class="loading-overlay">
-    <div class="loader"></div>
-    <p id="loadingMessage" class="loading-message"></p>
-</div>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+        <div class="text-center">
+            <div role="status">
+                <svg aria-hidden="true" style="width: 50px; height: 50px;"
+                    class="inline w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path
+                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                        fill="currentColor" />
+                    <path
+                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                        fill="currentFill" />
+                </svg>
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <p id="loadingMessage" class="loading-message"></p>
+    </div>
+
+    <div id="errorOverlay" class="error-overlay">
+        <div id="errorModal" class="overlay">
+            <div id="overlay-content" class="overlay-content">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <div class="relative bg-white rounded-lg shadow"
+                        style="border-radius: 30px; background-color: rgb(234 234 234); border-color: black;">
+                        <!-----------showError()---------------->
+                        <div class="dotlottie-container" id="error"
+                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); display: none;">
+                            <img src="./img/error.png" width="55px" height="55px" alt="orange error icon" />
+                        </div>
+                        <div class="p-4 md:p-5 text-center">
+                            <h3 id="modalTitle" style="padding-top: 20px;"
+                                class="mb-5 text-gray-800 text-2xl font-bold">Error</h3>
+                            <p id="modalContent" class="mb-4 text-gray-800">Failed To Load The Assets !<br>Check That
+                                You are connect to
+                                internet & having sufficient internet speed.</p>
+                            <button data-modal-hide="popup-modal" type="button" onclick="refreshPage()"
+                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                                Refresh Page
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="content">
         <div class="container" style="
     height: 520px;">
@@ -50,7 +94,7 @@
                     Yet your storms can make the bravest feel small.<br>
                     Oh rain, you are a paradox profound,<br>
                     In your beauty and your terror, we are bound.
-                    <img src="img.png" alt="Signature" class="signature">
+                    <img src="./img/img.png" alt="Signature" class="signature">
                 </div>
             </div>
             <button id="playButton" aria-label="Play or pause background music">
@@ -84,16 +128,16 @@
         style="margin-bottom: 0px; margin-right: 0px; margin-left: 0px; margin-top: 0px; border-top-left-radius:10px; border-top-right-radius:10px;">
         <div class="w-full mx-auto max-w-screen-xl p-1 md:flex md:items-center md:justify-center">
             <span class="footer-text text-xs text-gray-200 sm:text-center"
-                style="font-family: 'JetBrains Mono'; font-size: 13px;">Develop By ISK
+                style="font-family: 'JetBrains Mono'; font-size: 13.50px;">Develop By ISK
                 <span class="footer-text text-md text-gray-400 md:text-center">Reported An Issue On WebPage?
                     <a href="#" id="contactLink" class="hover:underline" style="color: rgb(155, 73, 255);">Click
-                        here</a> <a href="#" id="contactLink"><svg id="contactSvg" class="w-6 h-6 inline-block" style="color: rgb(155, 73, 255);" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
-                        viewBox="0 0 24 24">
-                        <path fill-rule="evenodd"
-                            d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
-                            clip-rule="evenodd" />
-                    </svg></a> | <a href="#" id="creditsLink" class="hover:underline"
+                        here</a> <a href="#" id="contactLink"><svg id="contactSvg" class="w-6 h-6 inline-block"
+                            style="color: rgb(155, 73, 255);" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M3 5.983C3 4.888 3.895 4 5 4h14c1.105 0 2 .888 2 1.983v8.923a1.992 1.992 0 0 1-2 1.983h-6.6l-2.867 2.7c-.955.899-2.533.228-2.533-1.08v-1.62H5c-1.105 0-2-.888-2-1.983V5.983Zm5.706 3.809a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Zm2.585.002a1 1 0 1 1 .003 1.414 1 1 0 0 1-.003-1.414Zm5.415-.002a1 1 0 1 0-1.412 1.417 1 1 0 1 0 1.412-1.417Z"
+                                clip-rule="evenodd" />
+                        </svg></a> | <a href="#" id="creditsLink" class="hover:underline"
                         style="color: rgb(155, 73, 255);">Credits
                     </a>
                 </span>
@@ -143,7 +187,7 @@
                             </svg>
                             <span class="plus-jakarta-sans">Email</span>
                         </a>
-                        <a href="https://wa.me/919112637018?text=Hii%2C%20I%20am%20contacting%20you%20from%20the%20webpage%20of%20phrases%20of%20poem.%20Here%20are%20some%20of%20my%20suggestions%2FBug%20reported%3A%20%3Cwrite%20your%20message%3E"
+                        <a href="https://wa.me/919234567890"
                             class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 inline-flex items-center">
                             <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24"
                                 xmlns="http://www.w3.org/2000/svg">
