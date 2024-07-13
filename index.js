@@ -8,10 +8,20 @@ document.addEventListener('DOMContentLoaded', function () {
     var audioBuffer;
     var loadingOverlay = document.getElementById('loadingOverlay');
     var loadingMessage = document.getElementById('loadingMessage');
+    var errorOverlay = document.getElementById('errorOverlay');
 
     function showLoadingOverlay(message) {
         loadingOverlay.style.display = 'flex';
-        loadingMessage.textContent = message;
+        loadingMessage.textContent = '';
+
+        const lines = message.split('<br>');
+        lines.forEach((line, index) => {
+            if (index > 0) {
+                loadingMessage.appendChild(document.createElement('br'));
+            }
+            loadingMessage.appendChild(document.createTextNode(line));
+        });
+
         document.querySelector('.content').style.display = 'none';
     }
 
@@ -20,10 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
         document.querySelector('.content').style.display = 'block';
     }
 
+    function showErrorOverlay() {
+        errorOverlay.style.display = 'flex';
+        loadingOverlay.style.display = 'none';
+        document.querySelector('.content').style.display = 'none';
+    }
+
     function loadAudio() {
         return new Promise((resolve, reject) => {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('./FinalMusic.m4a')
+            fetch('./music/FinalMusic.mp3')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -54,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var img = new Image();
             img.onload = resolve;
             img.onerror = reject;
-            img.src = 'img.png'; // Adjust this to the correct path of your signature image
+            img.src = 'img.png';
         });
     }
 
@@ -121,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load all assets simultaneously
-    showLoadingOverlay("Loading assets...");
+    showLoadingOverlay("Loading assets...<br>This will take A Moment");
     Promise.all([
         loadBackgroundImage(),
         loadSignature(),
@@ -132,7 +148,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             console.error('Error loading assets:', error);
-            hideLoadingOverlay(); // Hide loading overlay even if there's an error
+            showErrorOverlay();
         });
 
     playButton.addEventListener('click', toggleAudio);
@@ -179,6 +195,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function refreshPage() {
+    location.reload();
+}
 
 
 
