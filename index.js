@@ -6,21 +6,28 @@ document.addEventListener('DOMContentLoaded', function () {
     var isPlaying = false;
     var popoverTimeout;
     var audioBuffer;
+    var loadingOverlay = document.getElementById('loadingOverlay');
+    var loadingMessage = document.createElement('p');
+    loadingMessage.style.color = 'white';
+    loadingMessage.style.marginTop = '10px';
+    loadingMessage.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
+    loadingOverlay.appendChild(loadingMessage);
 
-    function showLoadingOverlay() {
-        document.getElementById('loadingOverlay').style.display = 'flex';
+    function showLoadingOverlay(message) {
+        loadingOverlay.style.display = 'flex';
+        loadingMessage.textContent = message;
         document.querySelector('.content').style.display = 'none';
     }
 
     function hideLoadingOverlay() {
-        document.getElementById('loadingOverlay').style.display = 'none';
+        loadingOverlay.style.display = 'none';
         document.querySelector('.content').style.display = 'block';
     }
 
     function loadAudio() {
         return new Promise((resolve, reject) => {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('FinalMusic.m4a')
+            fetch('./FinalMusic.m4a')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -117,9 +124,13 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000);
     }
 
-    // Load all assets
-    showLoadingOverlay();
-    Promise.all([loadAudio(), loadBackgroundImage(), loadSignature()])
+    // Load all assets simultaneously
+    showLoadingOverlay("Loading assets...");
+    Promise.all([
+        loadBackgroundImage(),
+        loadSignature(),
+        loadAudio()
+    ])
         .then(() => {
             hideLoadingOverlay();
         })
