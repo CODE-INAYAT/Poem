@@ -9,11 +9,17 @@ document.addEventListener('DOMContentLoaded', function () {
     var loadingOverlay = document.getElementById('loadingOverlay');
     var loadingMessage = document.getElementById('loadingMessage');
     var errorOverlay = document.getElementById('errorOverlay');
+    var dotAnimationInterval;
 
     function showLoadingOverlay(message) {
         loadingOverlay.style.display = 'flex';
-        loadingMessage.textContent = '';
+        updateLoadingMessage(message);
+        document.querySelector('.content').style.display = 'none';
+        startDotAnimation();
+    }
 
+    function updateLoadingMessage(message) {
+        loadingMessage.innerHTML = ''; // Use innerHTML instead of textContent
         const lines = message.split('<br>');
         lines.forEach((line, index) => {
             if (index > 0) {
@@ -21,25 +27,41 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             loadingMessage.appendChild(document.createTextNode(line));
         });
+    }
 
-        document.querySelector('.content').style.display = 'none';
+    function startDotAnimation() {
+        let dots = 0;
+        clearInterval(dotAnimationInterval);
+        dotAnimationInterval = setInterval(() => {
+            dots = (dots + 1) % 4;
+            const dotsString = '.'.repeat(dots);
+            const currentHTML = loadingMessage.innerHTML;
+            const newHTML = currentHTML.replace(/\.{0,3}(<br>)?$/, '') + dotsString + '<br>';
+            loadingMessage.innerHTML = newHTML;
+        }, 500);
+    }
+
+    function stopDotAnimation() {
+        clearInterval(dotAnimationInterval);
     }
 
     function hideLoadingOverlay() {
         loadingOverlay.style.display = 'none';
         document.querySelector('.content').style.display = 'block';
+        stopDotAnimation();
     }
 
     function showErrorOverlay() {
         errorOverlay.style.display = 'flex';
         loadingOverlay.style.display = 'none';
         document.querySelector('.content').style.display = 'none';
+        stopDotAnimation();
     }
 
     function loadAudio() {
         return new Promise((resolve, reject) => {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('FinalMusic.m4a')
+            fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -136,12 +158,19 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000);
     }
 
-    // Load all assets simultaneously
-    showLoadingOverlay("Loading assets...<br>This will take A Moment");
+    // Load all assets with status updates
+    showLoadingOverlay("This will take a moment<br>Loading images");
+
     Promise.all([
-        loadBackgroundImage(),
-        loadSignature(),
-        loadAudio()
+        loadBackgroundImage().then(() => {
+            updateLoadingMessage("Images are loaded ✅<br>Loading other assets");
+            return loadSignature();
+        }).then(() => {
+            updateLoadingMessage("Assets are loaded ✅<br>Loading audio");
+            return loadAudio();
+        }).then(() => {
+            updateLoadingMessage("Audio is loaded ✅<br>Finalizing");
+        })
     ])
         .then(() => {
             hideLoadingOverlay();
@@ -200,7 +229,7 @@ function refreshPage() {
     location.reload();
 }
 
-//Copy restruction
+//Copy restriction
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
@@ -252,12 +281,6 @@ document.addEventListener('keydown', function (e) {
 });
 
 //script to disable right click on the page
-document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('contextmenu', function (event) {
-        event.preventDefault();
-    });
-});
-
 document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('contextmenu', function (event) {
         event.preventDefault();
