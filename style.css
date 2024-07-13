@@ -258,3 +258,10 @@ img {
     opacity: 0;
     pointer-events: none;
 }
+
+.loading-message {
+    color: rgb(49, 49, 49);
+    margin-top: 10px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-align: center;
+}
