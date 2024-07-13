@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var audioBuffer;
     var loadingOverlay = document.getElementById('loadingOverlay');
     var loadingMessage = document.createElement('p');
-    loadingMessage.style.color = 'rgba(56, 56, 56, 0.9)';
+    loadingMessage.style.color = 'white';
     loadingMessage.style.marginTop = '10px';
     loadingMessage.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
     loadingOverlay.appendChild(loadingMessage);
@@ -26,8 +26,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadAudio() {
         return new Promise((resolve, reject) => {
+            showLoadingOverlay("Please wait while the audio is being prepared...");
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('./FinalMusic.m4a')
+            fetch('FinalMusic.m4a')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function loadBackgroundImage() {
         return new Promise((resolve, reject) => {
+            showLoadingOverlay("Please wait while the images are being set up...");
             var img = new Image();
             img.onload = function () {
                 document.body.style.backgroundImage = "url('" + img.src + "')";
@@ -124,11 +126,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 4000);
     }
 
-    // Load all assets simultaneously
-    showLoadingOverlay("Loading assets...");
+    // Load all assets
+    showLoadingOverlay("Initializing...");
     Promise.all([
-        loadBackgroundImage(),
-        loadSignature(),
+        loadBackgroundImage().then(() => loadSignature()),
         loadAudio()
     ])
         .then(() => {
