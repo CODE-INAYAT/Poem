@@ -200,80 +200,66 @@ function refreshPage() {
     location.reload();
 }
 
+//Copy restruction
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
 
+document.addEventListener('copy', function (e) {
+    e.preventDefault();
+    alert('Copying text is not allowed on this page.');
+});
 
+//DMR win&Max
+document.addEventListener('keydown', function (e) {
+    // Disable F12 key (developer tools)
+    if (e.keyCode === 123) {
+        e.preventDefault();
+    }
+    // Disable Ctrl+Shift+I and Ctrl+Shift+J (developer tools) for Windows
+    if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
+        e.preventDefault();
+    }
+    // Disable Command+Option+I and Command+Option+J (developer tools) for macOS
+    if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
+        e.preventDefault();
+    }
+    // Disable Ctrl+U (view source) for Windows
+    if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+    }
+    // Disable Command+Option+U (view source) for macOS
+    if (e.metaKey && e.altKey && e.keyCode === 85) {
+        e.preventDefault();
+    }
+});
 
+//Screenshot restriction to some extent
+document.addEventListener('keyup', function (e) {
+    if (e.key === 'PrintScreen') {
+        navigator.clipboard.writeText('');
+        alert('Screenshots can not be taken.');
+    }
+});
 
+//Ctr+P restriction win&Mac
+document.addEventListener('keydown', function (e) {
+    // Check for Ctrl+P on Windows and Command+P on macOS
+    if ((e.ctrlKey && e.key === 'p') || (e.metaKey && e.key === 'p')) {
+        e.preventDefault();
+        alert('Printing is disabled on this page.');
+    }
+});
 
+//script to disable right click on the page
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+    });
+});
 
-
-
-
-
-
-
-
-// //Copy restruction
-// document.addEventListener('contextmenu', function (e) {
-//     e.preventDefault();
-// });
-
-// document.addEventListener('copy', function (e) {
-//     e.preventDefault();
-//     alert('Copying text is not allowed on this page.');
-// });
-
-// //DMR win&Max
-// document.addEventListener('keydown', function (e) {
-//     // Disable F12 key (developer tools)
-//     if (e.keyCode === 123) {
-//         e.preventDefault();
-//     }
-//     // Disable Ctrl+Shift+I and Ctrl+Shift+J (developer tools) for Windows
-//     if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
-//         e.preventDefault();
-//     }
-//     // Disable Command+Option+I and Command+Option+J (developer tools) for macOS
-//     if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
-//         e.preventDefault();
-//     }
-//     // Disable Ctrl+U (view source) for Windows
-//     if (e.ctrlKey && e.keyCode === 85) {
-//         e.preventDefault();
-//     }
-//     // Disable Command+Option+U (view source) for macOS
-//     if (e.metaKey && e.altKey && e.keyCode === 85) {
-//         e.preventDefault();
-//     }
-// });
-
-
-// //Screenshot restriction to some extent
-// document.addEventListener('keyup', function (e) {
-//     if (e.key === 'PrintScreen') {
-//         navigator.clipboard.writeText('');
-//         alert('Screenshots are not allowed on this page.');
-//     }
-// });
-
-// //Ctr+P restriction win&Mac
-// document.addEventListener('keydown', function (e) {
-//     // Check for Ctrl+P on Windows and Command+P on macOS
-//     if ((e.ctrlKey && e.key === 'p') || (e.metaKey && e.key === 'p')) {
-//         e.preventDefault();
-//         alert('Printing is disabled on this page.');
-//     }
-// });
-
-// // script to disable right click on the page
-// // document.addEventListener('DOMContentLoaded', function () {
-// //     document.addEventListener('contextmenu', function (event) {
-// //         event.preventDefault();
-// //     });
-// // });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.addEventListener('contextmenu', function (event) {
-//         event.preventDefault();
-//     });
-// });
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+    });
+});
