@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var audioBuffer;
     var loadingOverlay = document.getElementById('loadingOverlay');
     var loadingMessage = document.createElement('p');
-    loadingMessage.style.color = 'white';
+    loadingMessage.style.color = 'rgba(56, 56, 56, 0.9)';
     loadingMessage.style.marginTop = '10px';
     loadingMessage.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
     loadingOverlay.appendChild(loadingMessage);
