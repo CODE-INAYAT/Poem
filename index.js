@@ -10,6 +10,128 @@ document.addEventListener('DOMContentLoaded', function () {
     var loadingMessage = document.getElementById('loadingMessage');
     var errorOverlay = document.getElementById('errorOverlay');
     var dotAnimationInterval;
+    var formOverlay = document.getElementById('formOverlay');
+    var accessForm = document.getElementById('accessForm');
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxtyfYKXXIM_W6VcNGv3t7kjR9uMGA9iA-ojy6HnQBmw1mPLwu4wKuZQLdHZ0R4xxFohQ/exec';
+    const form = document.forms['google-sheet']
+    // accessForm.addEventListener('submit', function (e) {
+    //     e.preventDefault();
+    //     const accessKey = document.getElementById('accessKey').value;
+
+    //     if (accessKey === 'page.poem') {
+    //         fetch(scriptURL, { method: 'POST', body: new FormData(accessForm) })
+    //             .then(response => {
+    //                 if (response.ok) {
+    //                     formOverlay.style.display = 'none';
+    //                     initializeWebpage();
+    //                 } else {
+    //                     throw new Error('Form submission failed');
+    //                 }
+    //             })
+    //             .catch(error => {
+    //                 console.error('Error!', error.message);
+    //                 alert('An error occurred. Please try again.');
+    //             });
+    //     } else {
+    //         alert('Invalid access key. Please try again.');
+    //     }
+    // });
+
+    // accessForm.addEventListener('submit', function (e) {
+    //     e.preventDefault();
+
+    //     const name = document.getElementById('name').value;
+    //     const email = document.getElementById('email').value;
+    //     const accessKey = document.getElementById('accessKey').value;
+
+    //     // Show loading spinner
+    //     const buttonText = document.getElementById('buttonText');
+    //     const buttonArrow = document.getElementById('buttonArrow');
+    //     const loadingSpinner = document.getElementById('loadingSpinner');
+
+    //     buttonText.textContent = 'Finishing Up...';
+    //     buttonArrow.classList.add('hidden');
+    //     loadingSpinner.classList.remove('hidden');
+
+    //     // Submit form data to Google Apps Script
+    //     fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.result === 'success') {
+    //                 if (accessKey === 'page.poem') {
+    //                     formOverlay.style.display = 'none';
+    //                     initializeWebpage();
+    //                 } else {
+    //                     alert('Invalid access key. Form data submitted, but access denied.');
+    //                 }
+    //             } else {
+    //                 throw new Error('Form submission failed');
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error!', error.message);
+    //             alert('An error occurred. Please try again.');
+    //         })
+    //         .finally(() => {
+    //             // Reset button state
+    //             buttonText.textContent = 'Continue';
+    //             buttonArrow.classList.remove('hidden');
+    //             loadingSpinner.classList.add('hidden');
+    //         });
+    // });
+
+    accessForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const accessKey = document.getElementById('accessKey').value;
+        const accessKeyInput = document.getElementById('accessKey');
+
+        const buttonText = document.getElementById('buttonText');
+        const buttonArrow = document.getElementById('buttonArrow');
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        buttonText.textContent = 'Verifiying Key...';
+        buttonArrow.classList.add('hidden');
+        loadingSpinner.classList.remove('hidden');
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === 'success') {
+                    if (accessKey === 'page.poem') {
+                        formOverlay.style.display = 'none';
+                        initializeWebpage();
+                    } else {
+                        // Incorrect access key
+                        accessKeyInput.classList.add('invalid');
+                        alert('Invalid access key ! Enter correct access key.');
+                    }
+                } else {
+                    throw new Error('Key Verification Failed! Try Again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert('An error occurred. Please try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                buttonText.textContent = 'Continue';
+                buttonArrow.classList.remove('hidden');
+                loadingSpinner.classList.add('hidden');
+            });
+    });
+
+    document.getElementById('accessKey').addEventListener('input', function () {
+        this.classList.remove('invalid');
+    });
+
+
+    function initializeWebpage() {
+        showLoadingOverlay("This will take a moment<br>Loading images");
+        loadAllAssets();
+    }
 
     function showLoadingOverlay(message) {
         loadingOverlay.style.display = 'flex';
@@ -54,7 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function loadAudio() {
         return new Promise((resolve, reject) => {
             audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            fetch('FinalMusic.m4a')
+            fetch('https://assets.mixkit.co/sfx/preview/mixkit-light-rain-loop-2393.mp3')
                 .then(response => response.arrayBuffer())
                 .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
                 .then(buffer => {
@@ -86,6 +208,27 @@ document.addEventListener('DOMContentLoaded', function () {
             img.onload = resolve;
             img.onerror = reject;
             img.src = 'img/img.png';
+        });
+    }
+
+    function loadAllAssets() {
+        Promise.all([
+            loadBackgroundImage().then(() => {
+                updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading other assets`);
+                return loadSignature();
+            }).then(() => {
+                updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading audio`);
+                return loadAudio();
+            }).then(() => {
+                updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Audio is loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
+            })
+        ]).then(() => {
+            setTimeout(() => {
+                hideLoadingOverlay();
+            }, 1000);
+        }).catch(error => {
+            console.error('Error loading assets:', error);
+            showErrorOverlay();
         });
     }
 
@@ -152,17 +295,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load all assets with status updates
-    showLoadingOverlay("This will take a moment<br>Loading images");
+    showLoadingOverlay("This will take a moment<br>Loading Assets");
 
     Promise.all([
         loadBackgroundImage().then(() => {
-            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading other assets`);
+            updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verification`);
             return loadSignature();
         }).then(() => {
-            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading audio`);
+            updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verified<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Connecting to server`);
             return loadAudio();
         }).then(() => {
-            updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Audio is loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
+            updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verified<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Connected to server<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
         })
     ]).then(() => {
         // All assets loaded successfully
@@ -222,61 +365,3 @@ document.addEventListener('DOMContentLoaded', function () {
 function refreshPage() {
     location.reload();
 }
-
-//Copy restriction
-document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-});
-
-document.addEventListener('copy', function (e) {
-    e.preventDefault();
-    alert('Copying text is not allowed on this page.');
-});
-
-//DMR win&Max
-document.addEventListener('keydown', function (e) {
-    // Disable F12 key (developer tools)
-    if (e.keyCode === 123) {
-        e.preventDefault();
-    }
-    // Disable Ctrl+Shift+I and Ctrl+Shift+J (developer tools) for Windows
-    if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
-        e.preventDefault();
-    }
-    // Disable Command+Option+I and Command+Option+J (developer tools) for macOS
-    if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
-        e.preventDefault();
-    }
-    // Disable Ctrl+U (view source) for Windows
-    if (e.ctrlKey && e.keyCode === 85) {
-        e.preventDefault();
-    }
-    // Disable Command+Option+U (view source) for macOS
-    if (e.metaKey && e.altKey && e.keyCode === 85) {
-        e.preventDefault();
-    }
-});
-
-//Screenshot restriction to some extent
-document.addEventListener('keyup', function (e) {
-    if (e.key === 'PrintScreen') {
-        navigator.clipboard.writeText('');
-        alert('Screenshots can not be taken.');
-    }
-});
-
-//Ctr+P restriction win&Mac
-document.addEventListener('keydown', function (e) {
-    // Check for Ctrl+P on Windows and Command+P on macOS
-    if ((e.ctrlKey && e.key === 'p') || (e.metaKey && e.key === 'p')) {
-        e.preventDefault();
-        alert('Printing is disabled on this page.');
-    }
-});
-
-//script to disable right click on the page
-document.addEventListener('DOMContentLoaded', function () {
-    document.addEventListener('contextmenu', function (event) {
-        event.preventDefault();
-    });
-});
