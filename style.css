@@ -257,3 +257,8 @@ img {
     opacity: 0;
     pointer-events: none;
 }
+
+#accessKey.invalid {
+    border-color: red !important;
+    color: red !important;
+}
