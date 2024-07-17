@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var formOverlay = document.getElementById('formOverlay');
     var accessForm = document.getElementById('accessForm');
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxtyfYKXXIM_W6VcNGv3t7kjR9uMGA9iA-ojy6HnQBmw1mPLwu4wKuZQLdHZ0R4xxFohQ/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbx45q1gHk5qMTDsyT6HyV5obPhwBt9SeuaIVurQl3cBK78guoyNPYD3nE2K1lcGaTGXog/exec';
     const form = document.forms['google-sheet']
 
     accessForm.addEventListener('submit', function (e) {
