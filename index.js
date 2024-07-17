@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(response => response.json())
             .then(data => {
                 if (data.result === 'success') {
-                    if (accessKey === 'page.poem') {
+                    if (accessKey === 'WRINPGDV29V04') {
                         formOverlay.style.display = 'none';
                         initializeWebpage();
                     } else {
