@@ -15,71 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const scriptURL = 'https://script.google.com/macros/s/AKfycbxtyfYKXXIM_W6VcNGv3t7kjR9uMGA9iA-ojy6HnQBmw1mPLwu4wKuZQLdHZ0R4xxFohQ/exec';
     const form = document.forms['google-sheet']
-    // accessForm.addEventListener('submit', function (e) {
-    //     e.preventDefault();
-    //     const accessKey = document.getElementById('accessKey').value;
-
-    //     if (accessKey === 'page.poem') {
-    //         fetch(scriptURL, { method: 'POST', body: new FormData(accessForm) })
-    //             .then(response => {
-    //                 if (response.ok) {
-    //                     formOverlay.style.display = 'none';
-    //                     initializeWebpage();
-    //                 } else {
-    //                     throw new Error('Form submission failed');
-    //                 }
-    //             })
-    //             .catch(error => {
-    //                 console.error('Error!', error.message);
-    //                 alert('An error occurred. Please try again.');
-    //             });
-    //     } else {
-    //         alert('Invalid access key. Please try again.');
-    //     }
-    // });
-
-    // accessForm.addEventListener('submit', function (e) {
-    //     e.preventDefault();
-
-    //     const name = document.getElementById('name').value;
-    //     const email = document.getElementById('email').value;
-    //     const accessKey = document.getElementById('accessKey').value;
-
-    //     // Show loading spinner
-    //     const buttonText = document.getElementById('buttonText');
-    //     const buttonArrow = document.getElementById('buttonArrow');
-    //     const loadingSpinner = document.getElementById('loadingSpinner');
-
-    //     buttonText.textContent = 'Finishing Up...';
-    //     buttonArrow.classList.add('hidden');
-    //     loadingSpinner.classList.remove('hidden');
-
-    //     // Submit form data to Google Apps Script
-    //     fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.result === 'success') {
-    //                 if (accessKey === 'page.poem') {
-    //                     formOverlay.style.display = 'none';
-    //                     initializeWebpage();
-    //                 } else {
-    //                     alert('Invalid access key. Form data submitted, but access denied.');
-    //                 }
-    //             } else {
-    //                 throw new Error('Form submission failed');
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error!', error.message);
-    //             alert('An error occurred. Please try again.');
-    //         })
-    //         .finally(() => {
-    //             // Reset button state
-    //             buttonText.textContent = 'Continue';
-    //             buttonArrow.classList.remove('hidden');
-    //             loadingSpinner.classList.add('hidden');
-    //         });
-    // });
 
     accessForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -105,7 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     } else {
                         // Incorrect access key
                         accessKeyInput.classList.add('invalid');
-                        alert('Invalid access key ! Enter correct access key.');
+                        // alert('Invalid access key ! Enter correct access key.');
+                        showInvalidkeyOverlay();
                     }
                 } else {
                     throw new Error('Key Verification Failed! Try Again.');
@@ -135,13 +71,57 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showLoadingOverlay(message) {
         loadingOverlay.style.display = 'flex';
+        loadingOverlay.style.animation = 'fadeIn 0.3s ease-out forwards';
         updateLoadingMessage(message);
         document.querySelector('.content').style.display = 'none';
         startDotAnimation();
     }
 
+    let animatedChecks = new Set();
+
     function updateLoadingMessage(message) {
-        loadingMessage.innerHTML = message;
+        // loadingMessage.style.animation = 'none';
+        // loadingMessage.offsetHeight; // Trigger reflow
+        // // loadingMessage.style.animation = 'slideUp 0.3s ease-out forwards';
+        // loadingMessage.style.animation = '0.4s cubic-bezier(0.39, 0.58, 0.57, 1) 0s 1 normal forwards running slideUp';
+        // loadingMessage.innerHTML = message;
+
+        loadingMessage.style.animation = 'none';
+        loadingMessage.offsetHeight; // Trigger reflow
+        loadingMessage.style.animation = 'slideUp 0.3s ease-out forwards';
+
+        // Create a temporary container
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = message;
+
+        // Find all check mark images
+        const checkImages = tempDiv.querySelectorAll('img[src="img/check.svg"]');
+        checkImages.forEach((img, index) => {
+            const checkId = `check-${message.split('<img').slice(0, index + 1).join('<img')}`;
+            if (!animatedChecks.has(checkId)) {
+                img.classList.add('check-icon');
+                img.style.opacity = '0'; // Start invisible
+                img.dataset.checkId = checkId;
+            } else {
+                img.style.opacity = '1'; // Make visible immediately for already animated checks
+                img.classList.remove('check-icon');
+            }
+        });
+
+        // Set the innerHTML
+        loadingMessage.innerHTML = tempDiv.innerHTML;
+
+        // Trigger the animation for each new check mark
+        setTimeout(() => {
+            const newCheckImages = loadingMessage.querySelectorAll('.check-icon[style*="opacity: 0"]');
+            newCheckImages.forEach((img, index) => {
+                setTimeout(() => {
+                    img.style.opacity = '1'; // Make visible to trigger animation
+                    animatedChecks.add(img.dataset.checkId);
+                }, index * 100); // 100ms delay between each check mark
+            });
+        }, 300); // Wait for the slideUp animation to complete
+
     }
 
     function startDotAnimation() {
@@ -160,10 +140,18 @@ document.addEventListener('DOMContentLoaded', function () {
         clearInterval(dotAnimationInterval);
     }
 
+    function animateFormIn() {
+        const formContent = document.getElementById('formContent');
+        formContent.classList.add('slide-in');
+    }
+
     function hideLoadingOverlay() {
         loadingOverlay.style.display = 'none';
+        loadingOverlay.style.animation = 'none';
+        loadingMessage.style.animation = 'none';
         document.querySelector('.content').style.display = 'block';
         stopDotAnimation();
+        animateFormIn();
     }
 
     function showErrorOverlay() {
@@ -171,6 +159,19 @@ document.addEventListener('DOMContentLoaded', function () {
         loadingOverlay.style.display = 'none';
         document.querySelector('.content').style.display = 'none';
         stopDotAnimation();
+    }
+
+    function showInvalidkeyOverlay() {
+        const invalidkeyOverlay = document.getElementById('invalidkeyOverlay');
+        const invalidkeyModal = document.getElementById('invalidkeyModal');
+        invalidkeyOverlay.style.display = 'flex';
+        invalidkeyModal.classList.remove('pop-up');
+
+        // Force a reflow
+        void invalidkeyModal.offsetWidth;
+
+        // Add the animation class
+        invalidkeyModal.classList.add('pop-up');
     }
 
     function loadAudio() {
@@ -211,11 +212,41 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function loadCheckImage() {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = resolve;
+            img.onerror = reject;
+            img.src = 'img/check.svg';
+        });
+    }
+
+    // function loadAllAssets() {
+    //     Promise.all([
+    //         loadBackgroundImage().then(() => {
+    //             updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading other assets`);
+    //             return loadSignature();
+    //         }).then(() => {
+    //             updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading audio`);
+    //             return loadAudio();
+    //         }).then(() => {
+    //             updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Audio is loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
+    //         })
+    //     ]).then(() => {
+    //         setTimeout(() => {
+    //             hideLoadingOverlay();
+    //         }, 1000);
+    //     }).catch(error => {
+    //         console.error('Error loading assets:', error);
+    //         showErrorOverlay();
+    //     });
+    // }
+
     function loadAllAssets() {
         Promise.all([
-            loadBackgroundImage().then(() => {
+            loadCheckImage(), loadSignature().then(() => {
                 updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading other assets`);
-                return loadSignature();
+                return loadBackgroundImage();
             }).then(() => {
                 updateLoadingMessage(`Images are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Loading audio`);
                 return loadAudio();
@@ -298,9 +329,9 @@ document.addEventListener('DOMContentLoaded', function () {
     showLoadingOverlay("This will take a moment<br>Loading Assets");
 
     Promise.all([
-        loadBackgroundImage().then(() => {
+        loadCheckImage(), loadSignature().then(() => {
             updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verification`);
-            return loadSignature();
+            return loadBackgroundImage();
         }).then(() => {
             updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verified<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Connecting to server`);
             return loadAudio();
@@ -364,4 +395,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function refreshPage() {
     location.reload();
+}
+
+function removeInvalidkeyOverlay() {
+    const invalidkeyOverlay = document.getElementById('invalidkeyOverlay');
+    const invalidkeyModal = document.getElementById('invalidkeyModal');
+
+    invalidkeyModal.classList.remove('pop-up');
+    invalidkeyOverlay.style.display = 'none';
 }
