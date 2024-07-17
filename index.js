@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const buttonText = document.getElementById('buttonText');
         const buttonArrow = document.getElementById('buttonArrow');
         const loadingSpinner = document.getElementById('loadingSpinner');
-        buttonText.textContent = 'Verifiying Key...';
+        buttonText.textContent = 'verifying Key...';
         buttonArrow.classList.add('hidden');
         loadingSpinner.classList.remove('hidden');
 
@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function showLoadingOverlay(message) {
         loadingOverlay.style.display = 'flex';
-        loadingOverlay.style.animation = 'fadeIn 0.3s ease-out forwards';
         updateLoadingMessage(message);
         document.querySelector('.content').style.display = 'none';
         startDotAnimation();
@@ -88,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         loadingMessage.style.animation = 'none';
         loadingMessage.offsetHeight; // Trigger reflow
-        loadingMessage.style.animation = 'slideUp 0.3s ease-out forwards';
+        loadingMessage.style.animation = 'slideUp 0.6s ease-out forwards';
 
         // Create a temporary container
         const tempDiv = document.createElement('div');
@@ -404,3 +403,4 @@ function removeInvalidkeyOverlay() {
     invalidkeyModal.classList.remove('pop-up');
     invalidkeyOverlay.style.display = 'none';
 }
+
