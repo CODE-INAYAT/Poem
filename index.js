@@ -466,11 +466,12 @@ function convertToUpperCaseAndRemoveNumbers(inputField) {
         }
         function convertToLowerCaseAndRemoveSpaces(inputField) {
             inputField.value = inputField.value
-                .replace(/\s/g, "") // Remove all whitespace characters
-                .replace(/[A-Z]/g, char => char.toLowerCase()); // Convert uppercase to lowercase
+                .replace(/\s/g, "")
+                .replace(/[A-Z]/g, char => char.toLowerCase());
         }
 
         function removeSpaces(inputField) {
             inputField.value = inputField.value
-                .replace(/\s/g, "");
+                .replace(/\s/g, "")
+            .toUpperCase();
         }
