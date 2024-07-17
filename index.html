@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
+        /*Form Animation*/
         @keyframes slideIn {
             from {
                 transform: translateX(100%);
@@ -33,6 +34,7 @@
             animation: slideIn 0.8s ease-out forwards;
         }
 
+        /*Invalid Key pop*/
         @keyframes popUp {
             0% {
                 transform: scale(0.5);
@@ -53,16 +55,6 @@
             animation: popUp 0.3s ease-out forwards;
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -73,10 +65,6 @@
                 opacity: 1;
                 transform: translateY(0);
             }
-        }
-
-        #loadingOverlay {
-            opacity: 0;
         }
 
         #loadingMessage {
