@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         formOverlay.style.display = 'none';
                         initializeWebpage();
                     } else {
-                        // Incorrect access key
                         accessKeyInput.classList.add('invalid');
-                        // alert('Invalid access key ! Enter correct access key.');
                         showInvalidkeyOverlay();
                     }
                 } else {
@@ -115,11 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const newCheckImages = loadingMessage.querySelectorAll('.check-icon[style*="opacity: 0"]');
             newCheckImages.forEach((img, index) => {
                 setTimeout(() => {
-                    img.style.opacity = '1'; // Make visible to trigger animation
+                    img.style.opacity = '1';
                     animatedChecks.add(img.dataset.checkId);
-                }, index * 100); // 100ms delay between each check mark
+                }, index * 100);
             });
-        }, 300); // Wait for the slideUp animation to complete
+        }, 300);
 
     }
 
@@ -338,10 +336,9 @@ document.addEventListener('DOMContentLoaded', function () {
             updateLoadingMessage(`Assets are loaded<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>User Verified<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Connected to server<img src="img/check.svg" style="width: 20px; height: 20px; display: inline; vertical-align: middle; margin-left: 5px;" alt=""><br>Finalizing`);
         })
     ]).then(() => {
-        // All assets loaded successfully
         setTimeout(() => {
             hideLoadingOverlay();
-        }, 1000); // Delay for 1 second to show the final message
+        }, 1000);
     }).catch(error => {
         console.error('Error loading assets:', error);
         showErrorOverlay();
@@ -404,3 +401,76 @@ function removeInvalidkeyOverlay() {
     invalidkeyOverlay.style.display = 'none';
 }
 
+//Copy restriction
+document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+});
+
+document.addEventListener('copy', function (e) {
+    e.preventDefault();
+    alert('Copying text is not allowed on this page.');
+});
+
+//DMR win&Max
+document.addEventListener('keydown', function (e) {
+    // Disable F12 key (developer tools)
+    if (e.keyCode === 123) {
+        e.preventDefault();
+    }
+    // Disable Ctrl+Shift+I and Ctrl+Shift+J (developer tools) for Windows
+    if (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) {
+        e.preventDefault();
+    }
+    // Disable Command+Option+I and Command+Option+J (developer tools) for macOS
+    if (e.metaKey && e.altKey && (e.keyCode === 73 || e.keyCode === 74)) {
+        e.preventDefault();
+    }
+    // Disable Ctrl+U (view source) for Windows
+    if (e.ctrlKey && e.keyCode === 85) {
+        e.preventDefault();
+    }
+    // Disable Command+Option+U (view source) for macOS
+    if (e.metaKey && e.altKey && e.keyCode === 85) {
+        e.preventDefault();
+    }
+});
+
+//Screenshot restriction to some extent
+document.addEventListener('keyup', function (e) {
+    if (e.key === 'PrintScreen') {
+        navigator.clipboard.writeText('');
+        alert('Screenshots can not be taken.');
+    }
+});
+
+//Ctr+P restriction win&Mac
+document.addEventListener('keydown', function (e) {
+    // Check for Ctrl+P on Windows and Command+P on macOS
+    if ((e.ctrlKey && e.key === 'p') || (e.metaKey && e.key === 'p')) {
+        e.preventDefault();
+        alert('Printing is disabled on this page.');
+    }
+});
+
+//script to disable right click on the page
+document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('contextmenu', function (event) {
+        event.preventDefault();
+    });
+});
+
+function convertToUpperCaseAndRemoveNumbers(inputField) {
+            inputField.value = inputField.value
+                .replace(/[^a-zA-Z\s]/g, "")
+                .toUpperCase();
+        }
+        function convertToLowerCaseAndRemoveSpaces(inputField) {
+            inputField.value = inputField.value
+                .replace(/\s/g, "") // Remove all whitespace characters
+                .replace(/[A-Z]/g, char => char.toLowerCase()); // Convert uppercase to lowercase
+        }
+
+        function removeSpaces(inputField) {
+            inputField.value = inputField.value
+                .replace(/\s/g, "");
+        }
