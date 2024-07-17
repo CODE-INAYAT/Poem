@@ -15,14 +15,84 @@
     <link href='https://fonts.googleapis.com/css?family=JetBrains Mono' rel='stylesheet'>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideIn 0.8s ease-out forwards;
+        }
+
+        @keyframes popUp {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            70% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .pop-up {
+            animation: popUp 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        #loadingOverlay {
+            opacity: 0;
+        }
+
+        #loadingMessage {
+            opacity: 0;
+        }
+    </style>
+
+
 </head>
 
 <body>
     <!-- Access Form Overlay -->
     <div id="formOverlay" style="font-family: 'Plus Jakarta Sans', sans-serif; background-color: #e9eef5;"
-        class="fixed inset-0 bg-opacity-100 overflow-y-auto h-full w-full flex items-center justify-center z-10 p-3">
+        class="form-overlay fixed inset-0 bg-opacity-100 overflow-y-auto h-full w-full flex items-center justify-center z-10 p-3">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md sm:max-w-md mx-2 sm:mx-0"
-            style="border-radius: 16px;">
+            style="border-radius: 16px;" id="formContent">
             <h2 class="text-2xl font-bold mb-4 text-center">The Last Step!</h2>
             <form name="google-sheet" method="post" id="accessForm" class="space-y-4">
                 <div class="relative z-0">
@@ -55,7 +125,7 @@
                     </label>
                 </div>
                 <div class="relative z-0">
-                    <input type="text" id="accessKey" name="accessKey" required
+                    <input type="text" id="accessKey" name="accessKey" required oninput="removeSpaces(this)"
                         class="block py-2.5 px-0 w-full text-base text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                         placeholder=" " />
                     <label for="accessKey"
@@ -108,7 +178,7 @@
         </footer>
     </div>
 
-    <!-- Rest of your existing HTML code -->
+    <!-- loding form overlay -->
     <div id="loadingOverlay" class="loading-overlay">
         <div class="loader"></div>
         <div class="text-center">
@@ -141,15 +211,15 @@
         </footer>
     </div>
 
-    <div id="errorOverlay" class="error-overlay">
+    <div id="errorOverlay" class="error-overlay"
+        style="font-family: 'Plus Jakarta Sans', sans-serif; background-color: #e9eef5;">
         <div id="errorModal" class="overlay">
             <div id="overlay-content" class="overlay-content">
                 <div class="relative p-4 w-full max-w-md max-h-full">
-                    <div class="relative bg-white rounded-lg shadow"
-                        style="border-radius: 30px; background-color: rgb(234 234 234); border-color: black;">
+                    <div class="relative bg-white rounded-lg shadow-xl" style="border-radius: 30px;">
                         <!-----------showError()---------------->
                         <div class="dotlottie-container" id="error"
-                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%); display: none;">
+                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%);">
                             <img src="img/error.png" width="55px" height="55px" alt="orange error icon" />
                         </div>
                         <div class="p-4 md:p-5 text-center">
@@ -158,8 +228,35 @@
                             <p id="modalContent" class="mb-4 text-gray-800">Failed To Load The Assets !<br>Make sure you
                                 are connected to internet & having good internet speed.</p>
                             <button data-modal-hide="popup-modal" type="button" onclick="refreshPage()"
-                                class="text-white bg-green-600 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center me-2">
+                                class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
                                 Refresh Page
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="invalidkeyOverlay" class="invalidkey-overlay" style="font-family: 'Plus Jakarta Sans', sans-serif; background: rgba(0, 0, 0, 0.441); backdrop-filter: blur(15.9px);
+-webkit-backdrop-filter: blur(15.9px);">
+        <div id="invalidkeyModal" class="overlay">
+            <div id="overlay-content" class="overlay-content">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <div class="relative bg-white rounded-lg shadow-xl" style="border-radius: 30px;">
+                        <!-----------showInavlid()---------------->
+                        <div class="dotlottie-container" id="error"
+                            style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%);">
+                            <img src="img/error.png" width="55px" height="55px" alt="orange error icon" />
+                        </div>
+                        <div class="p-4 md:p-5 text-center">
+                            <h3 id="modalTitle" style="padding-top: 20px;"
+                                class="mb-5 text-gray-800 text-2xl font-bold">Invalid Key</h3>
+                            <p id="modalContent" class="mb-4 text-gray-800">Your entered access key is invalid, make
+                                sure to enter correct access key.</p>
+                            <button data-modal-hide="popup-modal" type="button" onclick="removeInvalidkeyOverlay()"
+                                class="text-white bg-green-700 hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
+                                Try Again
                             </button>
                         </div>
                     </div>
@@ -245,7 +342,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
-    <script src="index.js"></script>
+    <script src="Final.js"></script>
 
     <!-------Contact Modal-------->
     <div id="contactModal" style="font-family: 'Plus Jakarta Sans', sans-serif;"
@@ -353,40 +450,43 @@
     </div>
 
     <script>
-        document.getElementById('accessForm').addEventListener('submit', function (e) {
-            e.preventDefault();
+        // document.getElementById('accessForm').addEventListener('submit', function (e) {
+        //     e.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const accessKey = document.getElementById('accessKey').value;
+        //     const name = document.getElementById('name').value;
+        //     const email = document.getElementById('email').value;
+        //     const accessKey = document.getElementById('accessKey').value;
 
-            // Access key check
-            if (!accessKey) {
-                alert('Please enter an access key.');
-                return;
-            }
+        //     // Access key check
+        //     if (!accessKey) {
+        //         alert('Please enter an access key.');
+        //         return;
+        //     }
 
-            // All validations passed, show loading spinner
-            const buttonText = document.getElementById('buttonText');
-            const buttonArrow = document.getElementById('buttonArrow');
-            const loadingSpinner = document.getElementById('loadingSpinner');
+        //     // All validations passed, show loading spinner
+        //     const buttonText = document.getElementById('buttonText');
+        //     const buttonArrow = document.getElementById('buttonArrow');
+        //     const loadingSpinner = document.getElementById('loadingSpinner');
 
-            buttonText.textContent = 'Finishing Up...';
-            buttonArrow.classList.add('hidden');
-            loadingSpinner.classList.remove('hidden');
-        });
+        //     buttonText.textContent = 'Finishing Up...';
+        //     buttonArrow.classList.add('hidden');
+        //     loadingSpinner.classList.remove('hidden');
+        // });
 
         function convertToUpperCaseAndRemoveNumbers(inputField) {
-            // Remove any non-letter characters using a regular expression
             inputField.value = inputField.value
                 .replace(/[^a-zA-Z\s]/g, "")
                 .toUpperCase();
         }
         function convertToLowerCaseAndRemoveSpaces(inputField) {
-            // Remove spaces and convert alphabets to lowercase
             inputField.value = inputField.value
                 .replace(/\s/g, "") // Remove all whitespace characters
                 .replace(/[A-Z]/g, char => char.toLowerCase()); // Convert uppercase to lowercase
+        }
+
+        function removeSpaces(inputField) {
+            inputField.value = inputField.value
+                .replace(/\s/g, "");
         }
     </script>
 </body>
