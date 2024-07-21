@@ -24,7 +24,7 @@
         class="form-overlay fixed inset-0 bg-opacity-100 overflow-y-auto h-full w-full flex items-center justify-center z-10 p-3">
         <div class="bg-white p-8 rounded-lg shadow-xl w-full max-w-md sm:max-w-md mx-2 sm:mx-0"
             style="border-radius: 25px;" id="formContent">
-            <h2 class="text-2xl font-bold mb-4 text-center">The Last Step!</h2>
+            <h2 class="text-2xl mb-4 text-center" style="font-weight: 450;">The Last Step!</h2>
             <form name="google-sheet" method="post" id="accessForm" class="space-y-4">
                 <div class="relative z-0">
                     <input type="text" id="name" name="name" required oninput="convertToUpperCaseAndRemoveNumbers(this)"
@@ -71,7 +71,7 @@
                     </label>
                 </div>
                 <div class="flex justify-center">
-                    <button type="submit" id="submitButton" name="submit"
+                    <button type="submit" id="submitButton" name="submit" style="box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);"
                         class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 flex items-center justify-center w-full sm:w-auto">
                         <span id="buttonText">Continue</span>
                         <svg id="buttonArrow" class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
